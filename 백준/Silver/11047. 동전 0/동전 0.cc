@@ -1,42 +1,23 @@
-#include <iostream>
-#include <algorithm>
+#include <bits/stdc++.h>
 using namespace std;
 
-int main()
-{
+int res;
+int A[11];
 
-	int A[10];
-	int i, n, k, count = 0, sum = 0, x=1;
+int main(){
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+
+	int n,k;
 
 	cin >> n >> k;
 
+	for(int i=0; i<n;i++)	cin >> A[i];
 	
-
-	for (i = 0; i < n; i++) {
-		cin >> A[i];
+	for(int i=n-1; i>=0;i--){
+		res += k/A[i];
+		k %= A[i];
 	}
 
-	for (i = n - 1; i >= 0; i--)
-	{
-		if(A[i]>(k-sum))
-			continue;
 
-		x = 1;
-		while (1) {
-			if (A[i] * x <= (k - sum)) {
-				x++;
-			}
-			else {
-				x--;
-				sum += A[i]*x;
-				count += x;
-				break;
-			}
-		}
-	}
-
-	cout << count;
-
-	
-
+	cout << res;
 }
