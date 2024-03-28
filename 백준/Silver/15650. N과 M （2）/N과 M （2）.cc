@@ -1,28 +1,29 @@
 #include <bits/stdc++.h>
 using namespace std;
 
-int n,m,cnt;
-int A[9], visited[9];
+int n,m;
+int arr[10];
 
-void solve(int idx, int cnt){
-  if(cnt==m){
-    for(int i=0; i<m;i++) cout << A[i] << " ";
-    cout << "\n";
-    return;
-  }
-
-  for(int i=idx; i<=n;i++){
-    if(!visited[i]){
-      visited[i] = 1;
-      A[cnt] = i;
-      solve(i+1, cnt+1);
-      visited[i] = 0;
+void solve(int idx,int len){
+    if(len==m){
+        for(int i=0;i<m;i++)
+            printf("%d ",arr[i]);
+        printf("\n");
+        return;
     }
-  }
+
+    for(int i=idx;i<=n;i++){
+        arr[len] = i;
+        solve(i+1,len+1);
+    }
+
+    return;
 }
 
 int main(){
-  cin >> n >> m;
+    scanf("%d %d",&n,&m);
 
-  solve(1,0);
+    solve(1,0);
+
+    return 0;
 }
