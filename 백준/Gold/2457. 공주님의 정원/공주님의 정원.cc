@@ -44,7 +44,7 @@ int main() {
 
   for(int i=0; i<n; i++){
 
-    // 3월 1일 이전인 경우
+    // 기준일 이전인 경우
     if(Day_compare(temp_s, Day[i][0]) == temp_s){
       temp = Day_compare(temp,Day[i][1]);
       
@@ -54,7 +54,7 @@ int main() {
       }
     }
 
-    // 3월 1일 이후인 경우
+    // 기준일 이후인 경우
     else{
       temp_s = temp;
       cnt++;
