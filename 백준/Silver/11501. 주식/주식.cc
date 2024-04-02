@@ -5,8 +5,7 @@ int A[1000004];
 int t, n;
 
 int main(){
-    ios::sync_with_stdio(0);cin.tie(0);cout.tie(0);
-
+    ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
     cin >> t;
 
     for(int i=0; i<t;i++){
