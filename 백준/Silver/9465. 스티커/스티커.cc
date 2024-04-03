@@ -29,9 +29,7 @@ int main(){
 
         cout << max( dp[0][n], dp[1][n] ) << "\n";
 
-        memset(dp, 0, sizeof(dp));
     }
-
 
 
 
