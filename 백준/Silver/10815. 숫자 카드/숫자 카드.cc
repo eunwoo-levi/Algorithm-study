@@ -1,44 +1,31 @@
-#include <iostream>
+#include<iostream>
+#include<algorithm>
+
 using namespace std;
 
-const int MAX_SIZE = 10000001;
-
-int main() {
+int main(){
     ios::sync_with_stdio(false);
-    cin.tie(nullptr);
+    cin.tie(NULL);
+    cout.tie(NULL);
 
-    int A[MAX_SIZE] = {0};
-    int B[MAX_SIZE] = {0};
+    int M, N, num;
 
-    int n, m;
-    cin >> n;
-
-    for (int i = 0; i < n; ++i) {
-        int tmp;
-        cin >> tmp;
-        if (tmp >= 0)
-            A[tmp]++;
-        else
-            B[-tmp]++;
+    cin >> M;
+    int *arr = new int[M];
+    for(int i = 0; i < M; i++){
+        cin >> arr[i];
     }
+    
+    sort(arr, arr + M);
 
-    cin >> m;
-
-    for (int i = 0; i < m; ++i) {
-        int tmp;
-        cin >> tmp;
-        if (tmp >= 0) {
-            if (A[tmp] > 0)
-                cout << "1 ";
-            else
-                cout << "0 ";
-        } else {
-            if (B[-tmp] > 0)
-                cout << "1 ";
-            else
-                cout << "0 ";
+    cin >> N;
+    for(int i = 0; i < N; i++){
+        cin >> num;
+        if(binary_search(arr, arr + M, num)){
+            cout << '1' << ' ';
+        }
+        else{
+            cout << '0' << ' ';
         }
     }
-
-    return 0;
 }
