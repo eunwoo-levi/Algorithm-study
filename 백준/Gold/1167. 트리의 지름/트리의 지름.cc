@@ -1,55 +1,47 @@
-//트리의 지름을 먼저 구해보자
-//정점 1에서 시작해서 가장 먼 거리를 y 정점이라고 하자
-//이 y정점에서 가장 먼저리인 z가 있다 y-z가 가장 긴 거리이다.
-
-#include <iostream>
-#include <vector>
-#include <string.h>
+#include <bits/stdc++.h>
 using namespace std;
 
-int V;
-const int MAX = 100001;
-vector <pair<int, int>>v[MAX];
-int visited[MAX] = { 0, };
-int maxdist = 0;
-int maxnode;
+int n, Max,Max_Node;
+int visited[100001];
+vector<pair<int,int>> V[100001];
 
-void input() {
-	cin >> V;
-	for (int i = 0; i < V; i++) {
-		int num, n1, n2;
-		cin >> num;
-		cin >> n1;
-		while (n1 != -1) {
-			cin >> n2;
-			v[num].push_back({ n1,n2 });
-			v[n1].push_back({ num,n2 });
-			cin >> n1;
+void dfs(int u, int d){
+	visited[u] = 1;
+	if(Max<d){
+		Max = d;
+		Max_Node = u;
+	}
+
+	for(int i=0; i<V[u].size(); i++){
+		int w = V[u][i].first;
+		int wd = V[u][i].second;
+		if(!visited[w]){
+			dfs(w, d+wd);
 		}
 	}
 }
 
-void dfs(int i,int dist) {
-	if (visited[i]) //방문한거면 다시방문X
-		return;
-	if (maxdist < dist) { //갱신해나가는과정
-		maxdist = dist;
-		maxnode = i;
-	}
-	visited[i] = true;
-	for (int j = 0; j < v[i].size(); j++) {
-		int ni = v[i][j].first;
-		int nd = v[i][j].second;
-		dfs(ni, nd + dist);
-	}
-}
+int main(){
+	ios::sync_with_stdio(0); cin.tie(0); cout.tie(0);
+	cin >> n;
 
-int main() {
-	input();
-	dfs(1,0);//1정점에서 시작한다. distance=0으로 들어갈것 maxnode를 구해야된다.
-	memset(visited, false, sizeof(visited));
-	maxdist = 0;
-	dfs(maxnode, 0);//찾은 그 노드에서 가장먼것을 찾는다.
-	cout << maxdist;
+	int a,b,c;
+	for(int i=1; i<=n;i++){
+		cin >> a;
+		while(1){
+			cin >> b;
+			if(b==-1)	break;
+			cin >> c;
+			V[a].push_back({b,c});
+		}
+	}
+
+	dfs(1,0); 			// 임의의 정점 1에서 시작, distance : 0
+	Max = 0;
+	memset(visited, 0 , sizeof(visited));
+	dfs(Max_Node, 0);
+
+	cout << Max;
+
 	return 0;
 }
