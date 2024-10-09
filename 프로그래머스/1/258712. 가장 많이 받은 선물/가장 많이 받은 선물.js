@@ -1,31 +1,35 @@
 function solution(friends, gifts) {
-  const len = friends.length;
-  const giftCount = Array.from({ length: len }, () => Array(len).fill(0));
-  const giftScore = new Map();
-  const nextMonth = Array(len).fill(0);
+    const n = friends.length
+    const giftPoints = new Array(n).fill(0)
+    const index = {}
+    const record = []
+    const points = new Array(n).fill(0)
 
-  friends.forEach(friend => giftScore.set(friend, 0));
-
-  for (const gift of gifts) {
-    const [from, to] = gift.split(' ');
-    giftCount[friends.indexOf(from)][friends.indexOf(to)]++;
-
-    giftScore.set(from, giftScore.get(from) + 1);
-    giftScore.set(to, giftScore.get(to) - 1);
-  }
-
-  for (let i = 0; i < len; i++) {
-    for (let j = i + 1; j < len; j++) {
-      if (giftCount[i][j] > giftCount[j][i]) nextMonth[i]++;
-      else if (giftCount[i][j] < giftCount[j][i]) nextMonth[j]++;
-      else {
-        if (giftScore.get(friends[i]) > giftScore.get(friends[j]))
-          nextMonth[i]++;
-        else if (giftScore.get(friends[i]) < giftScore.get(friends[j]))
-          nextMonth[j]++;
-      }
+    for(let i=0;i<n;i++){
+        record[i]=new Array(n).fill(0)
+        index[friends[i]] = i
     }
-  }
 
-  return Math.max(...nextMonth);
-}
+    for(const gift of gifts){
+        const [giver, taker] = gift.split(' ')
+        record[index[giver]][index[taker]] +=1
+        giftPoints[index[giver]] +=1
+        giftPoints[index[taker]] -=1
+    } 
+
+    for(let i=0;i<n;i++){
+        for(let j=0;j<n;j++){
+            if(record[i][j]>record[j][i]){
+                points[i]+=1
+            } 
+            
+            else if(record[i][j]===record[j][i]){
+                if(giftPoints[i]>giftPoints[j]){
+                    points[i]+=1
+                }
+            }
+        }
+    } 
+     return Math.max(...points)
+ }
+ 
