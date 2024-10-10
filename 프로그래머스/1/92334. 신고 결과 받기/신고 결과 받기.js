@@ -1,29 +1,25 @@
 function solution(id_list, report, k) {
-    var answer = new Array(id_list.length).fill(0)
+    var answer = [];
     
-    let rep = {}
-    let repNum = {}
+    const reports = [...new Set(report)].map((a)=>a.split(" "))
     
-    for(let i=0; i<id_list.length; i++){
-        rep[id_list[i]] = new Set();
-        repNum[id_list[i]] = 0;
-    }
+    const bads= new Map();
+    const reporter = new Map();
+
+    reports.forEach((v)=>{
+        bads.set(v[1], bads.get(v[1])+1 || 1);      // v[1]: 신고 당한 사람
+    })
     
-    for(let i=0; i<report.length; i++){
-        let temp = report[i].split(" ")
-        if(!rep[temp[0]].has(temp[1])){
-            rep[temp[0]].add(temp[1])
-            repNum[temp[1]]++;
+    for(let report of reports){
+        if(bads.get(report[1])>=k){
+            reporter.set(report[0], reporter.get(report[0])+1 || 1)
         }
     }
     
-    for(let i=0; i<id_list.length;i++){
-        for(let j of rep[id_list[i]]){
-            if(repNum[j]>=k){
-                answer[i]++;
-            }
-        }
-    }
+    return id_list.map((a)=>reporter.get(a) || 0)
+    
+    
+    
     
     
     return answer;
