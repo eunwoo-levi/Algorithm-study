@@ -1,79 +1,54 @@
-// 완전탐색+DFS: 점수 10점~0점까지 모두 돎으로써 최적의 해답을 구함
-
 function solution(n, info) {
-    let max = 0;            // 지금까지 발견한 라이언과 어피치의 최대 점수 차이
-    let answer = [-1];
-    let ryan = Array(11).fill(0);       
+  let max = 0;
+  let answer = [-1];
+  let ryan = Array(11).fill(0);       
 
-    function DFS(level,count){    //   level:현재 탐색 중인 과녁의 점수, count: 남은 화살 수
-        // 종료조건
-        if(level == 10){
-            ryan[level] = count;   // ryan[level]: 라이언이 해당 점수에 맞힌 화살 수
-            // 점수비교
-            let sum = 0      // 현재 탐색 중인 전략에서 라이언과 어피치의 점수 차이
-            for (let i = 0; i < 10; i++) {
-                if(ryan[i] > info[i]){
-                    sum += (10 - i);
-                }
-                
-                else if(ryan[i] === info[i]){
-                    continue;
-                }
-                
-                else{
-                    sum -= (10 - i);
-                }      
-            }
-
-            if(sum > max){
-                max = sum;
-                answer = [...ryan];
-            }
-            
-            else if(sum == max){
-                // 낮은 개수를 더 맞추는 경우를 답으로 채용함
-                for (let j = 10; j > 0; j--) {
-                    if(answer[j] == ryan[j]){
-                        continue;
-                    }
-                    else if(ryan[j] > answer[j]){
-                        answer = [...ryan];
-                        break;
-                    }
-                    else{
-                        break;
-                    }
-                }
-            }
-        // 계속진행
+  function DFS(level, count) {
+    // 기저 조건(base case)
+    if (level == 11 || count == 0) {
+      if (count > 0) ryan[10] += count;       // 마지막에 남은 화살이 있다면 0점에 할당하고, 계산 후 다시 제거합니다.
+      
+      let sum = 0;
+      for (let i = 0; i < 11; i++) {
+        if (ryan[i] > info[i]) {              // ryan이 apeach보다 해당 level에서 더 많이 맞춘 경우
+          sum += (10 - i);
+        } 
+        else if (info[i] > 0) {               // 해당 level에서 ryan보다 더 많이 맞췄거나, 같은 화살 수인 경우
+          sum -= (10 - i);
         }
-        
-        else{
-
-            // info[leve]: 어피치가 해당 점수에 맞힌 화살 수
-            // 남은 화살개수가 없거나 + 어피차보다 많이 못맞출경우
-            if(count == 0 || count <= info[level] ){
-                DFS(level+1,count);
-            }
-            else{
-                // 어피치보다 많이 맞출경우
-                ryan[level] = info[level] + 1
-                count -= (info[level] + 1);
-                DFS(level+1,count)
-
-
-                // 다른 점수로 돌릴경우
-                ryan[level] = 0
-                count = count + (info[level] + 1);
-                DFS(level+1,count)
-            }
-
+      }
+      
+      if (sum > 0 && sum >= max) {
+        if (sum > max || isLowerScoreBetter(ryan, answer)) {
+          max = sum;
+          answer = [...ryan];
         }
-
-
+      }
+      
+      if (count > 0) ryan[10] -= count;
+      return;
     }
     
-    DFS(0,n)
-
-    return answer;
+    // 
+    if (count > info[level]) {
+      ryan[level] = info[level] + 1;
+      DFS(level + 1, count - ryan[level]);
+      ryan[level] = 0;                        // 백트래킹  -  이전 단계로 되돌아감
+    }
+    
+    DFS(level + 1, count);
+  }
+  
+  function isLowerScoreBetter(ryan, answer) {
+    for (let i = 10; i >= 0; i--) {           // 가장 낮은 점수를 더 맞이 맞힌 경우 (문제 조건)
+      if (ryan[i] !== answer[i]) {
+        return ryan[i] > answer[i];
+      }
+    }
+    return false;
+  }
+  
+  DFS(0, n);
+  
+  return answer[0] === -1 ? [-1] : answer;
 }
