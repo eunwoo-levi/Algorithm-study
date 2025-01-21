@@ -1,9 +1,11 @@
 function solution(n)
 {
-    var answer = 0;
-
-    let res = n.toString().split('').map(Number)
-    answer = res.reduce((answer,e)=>answer+e)
+    let res = 0;
+    let k = n.toString()
     
-    return answer;
+    for(let i=0; i<k.length; i++){
+        res+=+k[i]
+    }
+    
+    return res;
 }
