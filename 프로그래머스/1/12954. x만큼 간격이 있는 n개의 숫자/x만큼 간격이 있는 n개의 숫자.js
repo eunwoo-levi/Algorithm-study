@@ -1,8 +1,11 @@
 function solution(x, n) {
-    var answer = [];
+    var answer = [x];
     
-    for(let i=1;i<=n;i++){
-        answer.push(x*i);
+    let k=x;
+    
+    for(let i=1; i<n;i++){
+        x+=k
+        answer.push(x)
     }
     
     return answer;
