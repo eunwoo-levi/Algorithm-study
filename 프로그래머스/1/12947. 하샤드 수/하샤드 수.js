@@ -1,9 +1,12 @@
 function solution(x) {
-    var answer = true;
+    let sum=0
     
-    let sum = x.toString().split('').reduce((a, b) => a + parseInt(b), 0);
+    let s = x.toString()
+    
+    for(let i=0; i<s.length ; i++){
+        sum += Number(s[i]);
+    }
+    
 
-    if(x%sum!==0) answer =false
-    
-    return answer;
+    return Number.isInteger(x/sum) ? true : false
 }
