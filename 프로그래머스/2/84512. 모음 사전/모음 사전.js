@@ -1,13 +1,17 @@
+let idx = 0;
+const vowels = ['A', 'E', 'I', 'O', 'U']
+const res = {}
+
 function solution(word) {
-    const vowels = ["A", "E", "I", "O", "U"];
-    const weights = [781, 156, 31, 6, 1]; // 각 자리의 가중치
+    dfs('', 0)
+    return res[word]
+}
 
-    let result = 0;
-
-    for (let i = 0; i < word.length; i++) {
-        const idx = vowels.indexOf(word[i]); // 현재 문자의 인덱스
-        result += idx * weights[i] + 1; // 위치 값 계산
+function dfs(word, length){
+    if(length>5)    return;
+    res[word] = idx++;
+    
+    for(let i=0; i<vowels.length; i++){
+        dfs(word+vowels[i], length+1)
     }
-
-    return result;
 }
