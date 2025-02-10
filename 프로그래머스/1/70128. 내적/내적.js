@@ -1,3 +1,3 @@
 function solution(a, b) {
-    return a.reduce((x,y,i)=>x+=y*b[i],0)
+    return a.reduce((acc,cur,idx)=>acc+cur*b[idx], 0)
 }
