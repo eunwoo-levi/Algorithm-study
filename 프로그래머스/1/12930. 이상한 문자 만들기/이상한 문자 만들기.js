@@ -1,18 +1,24 @@
 function solution(s) {
-    let cnt=0;
+    let res = ''
+    let idx = 0;
     
-    s=s.split('')
-    
-    for(let i=0; i<s.length;i++){
+    for(let i=0; i<s.length; i++){
         if(s[i]===' '){
-            cnt=0;
+            idx = 0;
+            res+=' '
             continue;
         }
         
-        if(parseInt(cnt%2)===0)   s[i]=s[i].toUpperCase();
-        else    s[i]=s[i].toLowerCase();
-        cnt++;
+        if(idx%2===0){
+            res += s[i].toUpperCase();
+            idx++;
+        }
+        
+        else{
+            res += s[i].toLowerCase();
+            idx++;
+        }
     }
     
-    return s.join('');
+    return res;
 }
