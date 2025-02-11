@@ -1,18 +1,28 @@
-function solution(n, m) {
-    var answer = [];
-    
+// greatest common divisor
+function gcd(n,m){
     let tmp=0;
-    let k=n*m;
     
-    if(n<m) [n,m] = [m,n]
-    
-    while(m!==0){
-        tmp=n%m;
-        n=m;
-        m=tmp;
+    if(n<m){
+        [n,m] = [m,n]
     }
     
-    answer.push(n,parseInt(k/n))
+    while(m!==0){
+        tmp = n%m;
+        n = m
+        m = tmp;
+    }
     
-    return answer;
+    return n;
+}
+
+// least common multiple
+function lcm(n,m,k){
+    return n*m/k
+}
+
+function solution(n, m) {
+    const g = gcd(n,m);
+    const l = lcm(n,m,g);
+    
+    return [g,l]
 }
