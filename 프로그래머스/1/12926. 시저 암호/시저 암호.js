@@ -1,20 +1,25 @@
 function solution(s, n) {
-    const upper = "ABCDEFGHIJKLMNOPQRSTUVWXYZ"
-    const lower = 'abcdefghijklmnopqrstuvwxyz'
-    var answer = '';
+    const upper = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+    const lower = 'abcdefghijklmnopqrstuvwxyz';
     
-    for(let i=0; i<s.length;i++){
-        if(s[i]===" "){
-            answer+=" "
+    let res = '';
+    
+    for (let i = 0; i < s.length; i++) {
+        let char = s[i];
+
+        if (char === ' ') { // 공백 처리
+            res += ' ';
             continue;
         }
-        
-        let text = upper.includes(s[i])?upper:lower
-        let index = text.indexOf(s[i])+n;
-        if(index>=text.length)  index-=text.length
-        
-        answer+=text[index]
+
+        if (upper.includes(char)) {
+            let index = (upper.indexOf(char) + n) % upper.length;
+            res += upper[index];
+        } else if (lower.includes(char)) {
+            let index = (lower.indexOf(char) + n) % lower.length;
+            res += lower[index];
+        }
     }
-        
-    return answer;
+    
+    return res;
 }
