@@ -1,18 +1,24 @@
 function solution(n, arr1, arr2) {
-    var answer = [];
+    const res = [];
     
-    for(let i=0; i<n;i++){
-        let sum = arr1[i] | arr2[i]
+    for(let i=0; i<n; i++){
+        const arrSum = arr1[i] | arr2[i]
+        let binary = arrSum.toString(2).padStart(n, '0')
+        let decode = ''
         
-        let arr=""
-        for(let j=0; j<n;j++){
-            if(sum%2)   arr= "#" + arr
-            else    arr =  " "+arr 
-            sum = parseInt(sum/2);
+        
+        console.log(binary)
+        for(let j=0; j<n; j++){
+            if(binary[j]==='1'){
+                decode+='#'
+            }
+            else{
+                decode+=' '
+            }
         }
-        
-        answer.push(arr)
+        res.push(decode);
     }
     
-    return answer;
+    
+    return res
 }
