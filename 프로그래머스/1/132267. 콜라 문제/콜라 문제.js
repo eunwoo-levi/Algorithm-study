@@ -1,12 +1,13 @@
 function solution(a, b, n) {
-    var answer = 0;
+    let res = 0
     
     while(n>=a){
-        let k = parseInt(n/a)*b
-        n = parseInt(n%a) + k
-        answer+=k
-       console.log(n)
+        let give = parseInt(n/a)*b
+        
+        n = parseInt(n % a) + give;
+        
+        res+=give
     }
     
-    return answer;
+    return res;
 }
