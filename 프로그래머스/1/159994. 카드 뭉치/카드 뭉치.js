@@ -1,20 +1,22 @@
 function solution(cards1, cards2, goal) {
+    let n=0, m=0;
     
-    let a=0, b=0;
-    
-    for(let i=0; i<goal.length;i++){
-        if(a<cards1.length && goal[i]===cards1[a]){
-            a++;
-        }
-        else if(b<cards2.length && goal[i]===cards2[b]){
-            b++;
+    for(let i=0; i<goal.length; i++){
+        if(n>cards1.length || m>cards2.length){
+            console.log("?????????????")
+            return "No"
         }
         
+        if(cards1[n]===goal[i]){
+            n++;
+        }
+        else if(cards2[m]===goal[i]){
+            m++;
+        }
         else{
             return "No"
         }
     }
     
     return "Yes"
-    
 }
