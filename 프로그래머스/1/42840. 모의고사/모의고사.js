@@ -1,24 +1,27 @@
 function solution(answers) {
-    let answer=[]
+    const answer = [];
+    const first = [1, 2, 3, 4, 5];
+    const second = [2, 1, 2, 3, 2, 4, 2, 5];
+    const third = [3, 3, 1, 1, 2, 2, 4, 4, 5, 5];
     
-    let A=[1, 2, 3, 4, 5]
-    let B=[2, 1, 2, 3, 2, 4, 2, 5]
-    let C=[3, 3, 1, 1, 2, 2, 4, 4, 5, 5]
+    let res_1 = 0, res_2 = 0, res_3 = 0;
+    const first_len = first.length;
+    const second_len = second.length;
+    const third_len = third.length;
     
-    let a=0,b=0,c=0;
-    
-    for(let i=0;i<answers.length;i++){
-        if(answers[i]===A[i%A.length])   a++
-        if(answers[i]===B[i%B.length])   b++
-        if(answers[i]===C[i%C.length])   c++
+    for (let i = 0; i < answers.length; i++) {
+        if (first[i % first_len] === answers[i]) res_1++;
+        if (second[i % second_len] === answers[i]) res_2++;
+        if (third[i % third_len] === answers[i]) res_3++;
     }
     
-    let res = [];
-    res.push(a,b,c)
+    const max_res = Math.max(res_1, res_2, res_3);
     
-    let Max = Math.max(...res);
+    [res_1, res_2, res_3].forEach((res, idx) => {
+        if (res === max_res) {
+            answer.push(idx + 1);
+        }
+    });
     
-    res.map((a,b)=>a===Max&&answer.push(b+1))
-    
-    return answer;
+    return answer.sort((a, b) => a - b);
 }
