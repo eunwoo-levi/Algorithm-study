@@ -6,5 +6,7 @@ var removeDuplicates = function(nums) {
             uniqueIndex++;
         }
     }
+
+    
     return uniqueIndex;
 };
