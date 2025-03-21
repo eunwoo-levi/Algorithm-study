@@ -7,5 +7,4 @@ var removeElement = function(nums, val) {
 
         nums.splice(idx,1)
     }
-
 };
