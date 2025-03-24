@@ -1,16 +1,11 @@
-/**
- * @param {string} ransomNote
- * @param {string} magazine
- * @return {boolean}
- */
 var canConstruct = function(ransomNote, magazine) {
-    for(let i=0; i<ransomNote.length; i++){
-        const idx = magazine.indexOf(ransomNote);
-        if(idx!==-1){
-            ransomNote.replace(idx,"");
-        }
-        else{
-            return false;
+    for (let i = 0; i < ransomNote.length; i++) {
+        const idx = magazine.indexOf(ransomNote[i]); 
+
+        if (idx === -1) {
+            return false; 
+        } else {
+            magazine = magazine.slice(0, idx) + magazine.slice(idx + 1);
         }
     }
 
