@@ -11,21 +11,19 @@
  * @return {boolean}
  */
 var hasCycle = function(head) {
-    if(!head) return false;
-    const values = [head.value];
-    if(!head.next) return false;
+    if (!head || !head.next) return false;
 
-    while(1){
-        const nextNode = head.next;
-        values.push(nextNode.value);
+    let slow = head; 
+    let fast = head; 
 
-        if(!nextNode.next){
-            return false;
-        }
+    while (fast && fast.next) {
+        slow = slow.next;
+        fast = fast.next.next; 
 
-        if(values.includes(nextNode.value)){
+        if (slow === fast) { 
             return true;
         }
-
     }
+
+    return false; 
 };
