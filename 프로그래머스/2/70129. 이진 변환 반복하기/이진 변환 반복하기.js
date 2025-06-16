@@ -1,20 +1,17 @@
 function solution(s) {
-    let count_change = 0
-    let count_zero = 0;
-    
-    let arr = s.split('')
-    
-    while(arr.length>1){
-        count_change++;
-        
-        const newArr = arr.filter((a)=>a==='1')
-        count_zero+= arr.length - newArr.length;
-        
-        let n = newArr.length;
-        const binary = n.toString(2)
-        arr = binary.split('')
+    let count_zero = 0, count = 0;
+    while(s!=='1'){
+        s = s.split('').filter(a=>{
+            if(a==='0'){
+                count_zero++;
+                return false;
+            }
+            else return true;
+        });
+        count++;
+        s=s.join('');
+        s=s.length.toString(2);
     }
     
-    
-    return [count_change, count_zero];
+    return [count, count_zero];
 }
