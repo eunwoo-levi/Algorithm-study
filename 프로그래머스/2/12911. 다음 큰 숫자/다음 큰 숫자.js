@@ -1,16 +1,9 @@
-function findOne(n){
-    return n.toString(2).split('1').length-1
-}
-
 function solution(n) {
-    let count = findOne(n)
-    
-    let res = n;
-    
+    const n_one = n.toString(2).split('').filter(a=>a==='1').length;
+    let k = n+1;
     while(1){
-        res++;
-        if(findOne(res)===count){
-            return res;
-        }
+        const k_one = k.toString(2).split('').filter(a=>a==='1').length;
+        if(k_one === n_one) return k;
+        k++;
     }
 }
