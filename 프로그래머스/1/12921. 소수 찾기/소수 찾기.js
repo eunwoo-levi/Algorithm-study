@@ -1,16 +1,15 @@
 function solution(n) {
-  const sieve = [];
-
-  for (let i = 2; i <= n; i++) {
-    sieve[i] = i;
-  }
-
-  for (let j = 2; j <= n; j++) {
-    if (sieve[j] === 0) continue;
-    for (let k = j + j; k <= n; k += j) {
-      sieve[k] = 0;
+    const primes = Array(n+1).fill(true);
+    primes[0] = primes[1] = false;
+    
+    for(let i=2; i<=Math.sqrt(n);i++){
+        if(primes[i]){
+            for(let j = i * i; j<=n; j+=i){
+                primes[j] = false;
+            }
+        }
     }
-  }
-
-  return sieve.filter((el) => el).length;
+    
+    return primes.filter(p=>p).length;
 }
+
