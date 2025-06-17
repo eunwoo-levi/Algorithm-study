@@ -1,17 +1,17 @@
+// Greedy
 function solution(n)
 {
-    let res = 0
+    var ans = 0;
+
     while(n!==0){
         if(n%2===0){
             n/=2;
         }
         else{
             n-=1;
-            res++;
+            ans++;
         }
     }
     
-    return res
+    return ans;
 }
-
-// 그리디
