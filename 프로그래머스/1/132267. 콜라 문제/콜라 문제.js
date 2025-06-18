@@ -3,9 +3,7 @@ function solution(a, b, n) {
     
     while(n>=a){
         let give = parseInt(n/a)*b
-        
         n = parseInt(n % a) + give;
-        
         res+=give
     }
     
