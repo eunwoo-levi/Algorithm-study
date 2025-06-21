@@ -1,21 +1,17 @@
+// dfs
 function solution(numbers, target) {
-    let res=0;
+    var answer = 0;
     
-    function dfs(depth, sum){
-        if(depth===numbers.length){
-            if(sum===target){
-                res++;
-            }
+    function dfs(length, sum){
+        if(length===numbers.length){
+            if(sum===target)    answer++;
             return;
         }
         
-        
-        dfs(depth+1, sum+numbers[depth]);
-        dfs(depth+1, sum-numbers[depth]);
+        dfs(length+1, sum+numbers[length]);
+        dfs(length+1, sum-numbers[length]);
     }
-    
     dfs(0,0);
     
-    return res;
-
+    return answer;
 }
