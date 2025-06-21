@@ -1,21 +1,11 @@
 function solution(s) {
     var answer = [-1];
     
-    
-    for(let i=1; i<s.length;i++){
-        let found=false;
-        let cnt=0;
-        for(let j=i-1;j>=0;j--){
-            cnt++;
-            if(s[i]===s[j]){
-                answer.push(cnt)
-                found=true;
-                break;
-            }
-        }
-        if(!found){
-            answer.push(-1)
-        }
+    for(let i=1; i<s.length; i++){
+        const sentence = s.slice(0,i).split('').reverse();
+        const idx = sentence.indexOf(s[i]);
+        answer.push(idx===-1?-1:idx+1);
+        
     }
     
     return answer;
