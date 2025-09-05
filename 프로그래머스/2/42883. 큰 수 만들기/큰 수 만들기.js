@@ -1,17 +1,16 @@
 function solution(number, k) {
-  const stack = [];
-  let remove = k;
-
-  for (const ch of number) {
-    while (remove > 0 && stack.length && stack[stack.length - 1] < ch) {
-      stack.pop();
-      remove--;
+    const stack = [];
+    let remove = k;
+    
+    for(let i=0; i<number.length; i++){
+        while(remove>0 && stack.length>0 && stack[stack.length-1] < number[i]){
+            stack.pop();
+            remove--;
+        }
+        stack.push(number[i]);
     }
-    stack.push(ch);
-  }
-
-  // 아직 못 뺀 게 남았으면 뒤에서 제거 (감소 수열 같은 케이스)
-  if (remove > 0) stack.length = stack.length - remove;
-
-  return stack.join('');
+    
+    if(remove>0)    stack.length = stack.length-remove;
+    
+    return stack.join('')
 }
