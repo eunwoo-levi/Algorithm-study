@@ -1,18 +1,17 @@
 function solution(number, k) {
-    const queue = [number[0]];
-    let idx = 1;
+  const stack = [];
+  let remove = k;
 
-    while (idx !== number.length && k !== 0) {
-        while (k !== 0 && queue[queue.length - 1] < number[idx]) {
-            queue.pop();
-            k--;
-        }
-        queue.push(number[idx++]);
+  for (const ch of number) {
+    while (remove > 0 && stack.length && stack[stack.length - 1] < ch) {
+      stack.pop();
+      remove--;
     }
+    stack.push(ch);
+  }
 
-    // 남은 숫자 붙이기
-    const result = queue.join("") + number.slice(idx);
+  // 아직 못 뺀 게 남았으면 뒤에서 제거 (감소 수열 같은 케이스)
+  if (remove > 0) stack.length = stack.length - remove;
 
-    // k가 아직 남아 있으면 뒤에서 제거
-    return result.slice(0, result.length - k);
+  return stack.join('');
 }
