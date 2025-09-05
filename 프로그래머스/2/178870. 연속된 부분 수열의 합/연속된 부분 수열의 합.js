@@ -1,23 +1,23 @@
-// 투포인터(슬라이딩 윈도우)
 function solution(sequence, k) {
-    var res = [0,sequence.length-1];
-    let left = 0, right = 0;
+    const n = sequence.length;
+    var answer = [0, n-1];
+    let start = 0, end = 0;
     let sum = sequence[0];
     
-    while(right<sequence.length){
-        if(sum<k){
-            sum+=sequence[++right];
+    while(end < n){
+        if(sum < k){
+            sum += sequence[++end];
         }
-        else if(sum>k){
-            sum-=sequence[left++];
+        else if(sum > k){
+            sum -= sequence[start++];
         }
         else{
-            if(res[1]-res[0]>right-left){
-                res = [left,right];
+            if(answer[1]-answer[0] > end-start){
+                answer = [start, end];
             }
-            sum-=sequence[left++]
+            sum -= sequence[start++];
         }
     }
-    
-    return res;
+        
+    return answer;
 }
