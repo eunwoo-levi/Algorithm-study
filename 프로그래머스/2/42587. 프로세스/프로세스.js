@@ -1,22 +1,28 @@
 function solution(priorities, location) {
-    let maxPriority = Math.max(...priorities)
-    let count=0;
+    var answer = 0;
+    const map = {};
     
-    while(1){
-        const currentProcess = priorities.shift();
+    for(let i=0; i<priorities.length; i++){
+        map[i] = priorities[i];
+    }
+    
+    const processes = Object.entries(map);
+    
+    while(processes.length!==0){
+        const first = processes.shift();
         
-        if(currentProcess===maxPriority){
-            count++;
-            if(location===0){
-                return count;
-            }
-            maxPriority = Math.max(...priorities)
+        const flag = processes.filter(p=>p[1]>first[1]);
+        if(flag.length!==0){
+            processes.push(first);
         }
         else{
-            priorities.push(currentProcess)
+            answer++;
+            if(Number(first[0])===location){
+                return answer;
+            }
         }
-        
-        location = location === 0 ? priorities.length - 1 : location - 1; // 위치 조정
-
     }
+    
+    
+    return answer;
 }
