@@ -1,26 +1,18 @@
 function solution(s){
-    let arr = [];
+    const stack = [];
     
-    const open = ['(', '{', '['];
-    const close = [')', '}', ']'];
-    
+
     for(let i=0; i<s.length; i++){
-        if(open.includes(s[i])){
-            arr.push(s[i]);
+        if(s[i]==='('){
+            stack.push(s[i]);
         }
         else{
-            const idx = close.indexOf(s[i]);
-            const popVal = arr.pop();
-            if(open[idx]!==popVal){
-                return false;
-            }
+            if(stack.length===0 || stack[stack.length-1]!=='(') return false;
+            stack.pop();
         }
     }
     
-    if(arr.length!==0){
-        return false;
-    }
+    if(stack.length) return false;
     
     return true;
 }
-    
