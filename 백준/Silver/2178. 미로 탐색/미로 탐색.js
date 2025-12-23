@@ -11,6 +11,10 @@ const dy = [-1, 1, 0, 0];
 const dx = [0, 0, -1, 1];
 
 function solution() {
+  console.log(bfs());
+}
+
+function bfs() {
   const queue = [[0, 0]];
 
   while (queue.length) {
@@ -34,4 +38,4 @@ function solution() {
   return visited[N - 1][M - 1];
 }
 
-console.log(solution());
+solution();
