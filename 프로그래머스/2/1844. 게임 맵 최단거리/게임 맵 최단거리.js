@@ -1,37 +1,40 @@
+// BFS
+const dy = [-1, 1, 0, 0];
+const dx = [0, 0, -1, 1];
+
+
 function solution(maps) {
-    const rows = maps.length;
-    const cols = maps[0].length;
+    const N = maps.length;
+    const M = maps[0].length;
     
-    const dx = [-1, 1, 0, 0];
-    const dy = [0, 0, -1, 1];
+    const visited = Array.from({length: N},()=> Array.from({length: M}, ()=> 0));
     
-    const queue = [[0, 0, 1]]; // [x좌표, y좌표, 현재까지의 거리]
     
-    const visited = Array.from({ length: rows }, () => Array(cols).fill(false));
-    visited[0][0] = true;
-    
-    while (queue.length) {
-        const [x, y, distance] = queue.shift();
+    function bfs(){
+        const queue = [[0,0]];
+        visited[0][0] = 1;
         
-        if (x === rows - 1 && y === cols - 1) {
-            return distance;
-        }
         
-        for (let i = 0; i < 4; i++) {
-            const nx = x + dx[i];
-            const ny = y + dy[i];
+        while(queue.length){
+            const [y, x] = queue.shift();
             
-            if (
-                nx >= 0 && nx < rows &&
-                ny >= 0 && ny < cols &&
-                maps[nx][ny] === 1 &&
-                !visited[nx][ny]
-            ) {
-                visited[nx][ny] = true;
-                queue.push([nx, ny, distance + 1]);
+            for(let i=0; i<4; i++){
+                const ny = y + dy[i];
+                const nx = x + dx[i];
+
+                if(ny>=0 && ny<N && nx>=0 && nx<M
+                   && visited[ny][nx]===0 && maps[ny][nx]===1 ){
+                    visited[ny][nx] = visited[y][x] + 1;
+                    if(ny===N-1 && nx===M-1){
+                        return visited[ny][nx];
+                    }
+                    
+                    queue.push([ny, nx]);
+                }   
             }
         }
     }
     
-    return -1;
+    const res = bfs();
+    return res ?? -1;
 }
