@@ -1,20 +1,12 @@
 function solution(sizes) {
-    let maxSize = 0;
-    let secondMaxSize = 0;
+    const max = Math.max(...sizes.flat())
+    let secondMax = 0;
     
-    sizes.map((twoSize)=>{
-        const biggerSize = Math.max(...twoSize);
-        if(maxSize<=biggerSize){
-            maxSize = biggerSize
-        }
-    })
-    
-    sizes.map((twoSize)=>{
-    const [a,b] = twoSize.sort((a,b)=>a-b);
-    if(a>secondMaxSize){
-        secondMaxSize = a;
+    for(let [x, y] of sizes){
+        const min = Math.min(x,y);
+        if(secondMax<min)   secondMax = min;
     }
-    })
     
-    return maxSize * secondMaxSize
+    
+    return max * secondMax;
 }
