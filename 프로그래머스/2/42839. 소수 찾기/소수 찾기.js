@@ -1,24 +1,25 @@
 function solution(numbers) {
-    const n = numbers.length;
-    const numSet = new Set();
-    const visited = new Array(numbers.length).fill(false);
+    const N = numbers.length;
+    const set = new Set();
+    const visited = Array.from({length: N+1}, ()=>false);
     
-    function dfs(path){
-        if(path.length>0)   numSet.add(Number(path));
-        if(path.length===n) return;
+    // 순열
+    function dfs(num){
+        if(num.length>0)    set.add(Number(num));
+        if(num.length===N)    return;
         
-        for(let i=0; i<n; i++){
+        for(let i=0; i<N; i++){
             if(!visited[i]){
                 visited[i] = true;
-                dfs(path + numbers[i]);
+                dfs(num + numbers[i]);
                 visited[i] = false;
             }
-        } 
+        }
     }
     
     dfs('');
     
-    return [...numSet].filter(isPrime).length;
+    return [...set].filter(isPrime).length;
 }
 
 const isPrime = (num) => {
