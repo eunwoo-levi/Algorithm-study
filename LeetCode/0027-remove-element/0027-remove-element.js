@@ -1,10 +1,18 @@
+/**
+ * @param {number[]} nums
+ * @param {number} val
+ * @return {number}
+ */
 var removeElement = function(nums, val) {
-    while(1){
-        const idx = nums.indexOf(val);
-        if(idx===-1){
-            break;
-        }
+    let k = 0;
 
-        nums.splice(idx,1)
+    let m=0;
+    for(let i=0; i<nums.length; i++){
+        if(nums[i]!==val){
+            nums[m++] = nums[i];
+            k++;
+        }
     }
+    
+    return k;
 };
