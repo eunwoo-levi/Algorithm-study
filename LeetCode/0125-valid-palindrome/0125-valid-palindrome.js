@@ -3,20 +3,16 @@
  * @return {boolean}
  */
 var isPalindrome = function(s) {
-    let str = '';
+    const arr = [];
 
     for(let i=0; i<s.length;i++){
         const lowerStr = s[i].toLowerCase();
         if((lowerStr >= 'a' && lowerStr <= 'z') || (lowerStr >= "0" && lowerStr <= "9") ){
-            str+=lowerStr;
+            arr.push(lowerStr);
         }
     }
 
-
-    const reversedStr = str.split('').reverse().join('');
-
-    console.log(reversedStr)
-
-
+    const str = arr.join("");
+    const reversedStr = arr.reverse().join('');
     return str === reversedStr;
 };
