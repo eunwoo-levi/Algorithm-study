@@ -10,7 +10,7 @@ var majorityElement = function(nums) {
 
     for(let i=1; i<nums.length; i++){
         if(count>n) return nums[i-1];
-        if(count[i-1]!==count[i])   count=1;
+        if(nums[i-1]!==nums[i])   count=1;
         count++;
     }
 
