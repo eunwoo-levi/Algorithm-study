@@ -4,7 +4,7 @@
  * @return {number[]}
  */
 var twoSum = function(numbers, target) {
-    const l=0; r=numbers.length-1;
+    let l=0; r=numbers.length-1;
 
     while(l<r){
         const sum = numbers[l]+numbers[r];
