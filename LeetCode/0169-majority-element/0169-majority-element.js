@@ -3,22 +3,15 @@
  * @return {number}
  */
 var majorityElement = function(nums) {
-    const k = Math.floor(nums.length/2);
-    nums.sort((a,b)=>a-b);
+    const n = Math.floor(nums.length/2);
+    let count = 1;
 
-    let cnt=1;
-    for(let i=1; i<nums.length;i++){
-        if(nums[i]===nums[i-1]){
-            cnt++;
-        }
-        else{
-            cnt=1;
-        }
+    nums.sort((a,b)=> a-b);
 
-        if(cnt>k){
-            return nums[i];
-        }
-
+    for(let i=1; i<nums.length; i++){
+        if(count>n) return nums[i-1];
+        if(count[i-1]!==count[i])   count=1;
+        count++;
     }
 
     return nums[0];
