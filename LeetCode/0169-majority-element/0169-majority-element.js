@@ -4,15 +4,12 @@
  */
 var majorityElement = function(nums) {
     const n = Math.floor(nums.length/2);
-    let count = 1;
+    const map = new Map();
 
-    nums.sort((a,b)=> a-b);
-
-    for(let i=1; i<nums.length; i++){
-        if(count>n) return nums[i-1];
-        if(nums[i-1]!==nums[i])   count=1;
-        count++;
+    for(const x of nums){
+        const c = (map.get(x) || 0) + 1;
+        if(c>n) return x;
+        map.set(x,c);
     }
 
-    return nums[0];
-};
+};  
