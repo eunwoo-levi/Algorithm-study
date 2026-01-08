@@ -1,27 +1,31 @@
 // 최소 단계 반환 + 이미 방문한 단어는 방문 X => BFS
 function solution(begin, target, words) {
-  let visited = [];
-  let queue = [];
-  // 예외처리
   if (!words.includes(target)) return 0;
 
-  queue.push([begin, 0]);
+  const visited = new Array(words.length).fill(false);
+  const queue = [[begin, 0]];
+  let head = 0;
 
-  while (queue.length) {
-    let [word, cnt] = queue.shift();
-    if (word === target) return cnt;
-    // 단어 목록 중 word와 한 글자만 차이나는 단어를 큐에 넣는다.
-    words.map((el) => {
+  while (head < queue.length) {
+    const [curWord, cnt] = queue[head++];
+
+    if (curWord === target) return cnt;
+
+    for (let i = 0; i < words.length; i++) {
+      if (visited[i]) continue;
+
       let diff = 0;
-
-      for (let i = 0; i < el.length; i++) {
-        if (el[i] != word[i]) diff++;
+      for (let j = 0; j < words[i].length; j++) {
+        if (words[i][j] !== curWord[j]) diff++;
+        if (diff > 1) break; // ✅ 빨리 탈출
       }
 
       if (diff === 1) {
-        queue.push([el, cnt + 1]);
-        visited.push(el);
+        visited[i] = true;
+        queue.push([words[i], cnt + 1]);
       }
-    });
+    }
   }
+
+  return 0;
 }
