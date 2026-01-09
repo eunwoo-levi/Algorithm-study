@@ -1,4 +1,5 @@
 function solution(s) {
-    const arr = s.split(' ').sort((a,b)=>a-b);
-    return Math.min(...arr) +' ' + Math.max(...arr)
+    const arr = s.split(" ").map(Number).sort((a,b)=>a-b);
+    
+    return arr[0] + ' ' + arr[arr.length-1]
 }
