@@ -1,17 +1,13 @@
 function solution(s) {
-    let count_zero = 0, count = 0;
-    while(s!=='1'){
-        s = s.split('').filter(a=>{
-            if(a==='0'){
-                count_zero++;
-                return false;
-            }
-            else return true;
-        });
+    let count=0, zeros = 0;
+    let string = s;
+    
+    while(string!=='1'){
+        const one = string.split("").filter(a=>a==='1').join("");
+        zeros += string.length - one.length;
         count++;
-        s=s.join('');
-        s=s.length.toString(2);
+        string = one.length.toString(2)
     }
     
-    return [count, count_zero];
+    return [count, zeros]
 }
