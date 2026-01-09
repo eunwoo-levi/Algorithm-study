@@ -1,21 +1,12 @@
 function solution(s) {
-    let check = 0;
-    let res = ''
+    const words = s.split(" ");
     
-    s.split('').forEach((l)=>{
-        if(l===' '){
-            check=0;
-            res+=' '
-            return;
+    for(let i=0; i<words.length; i++){
+        for(let j=0; j<words[i].length; j++){
+            words[i] = words[i][0].toUpperCase() + words[i].slice(1).toLowerCase();
         }
-        if(check===0){
-            res +=  l.toUpperCase();
-        }
-        else{
-            res += l.toLowerCase();
-        }
-        check++;
-    })
+    }
     
-    return res;
+    return words.join(" ");
+    
 }
