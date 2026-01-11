@@ -1,15 +1,22 @@
-// map? 해시?
 function solution(k, tangerine) {
-    let res=0;
-    const map = {};
+    var answer = 0;
     
-    tangerine.forEach(t=>map[t]=(map[t] || 0) + 1);
+    const map = new Map();
     
-    const sortedArr = Object.values(map).sort((a,b)=>b-a)
-    
-    for(let i=0; i<sortedArr.length; i++){
-        k-=sortedArr[i];
-        res++;
-        if(k<=0) return res;
+    for(const t of tangerine){
+        map.set(t , (map.get(t) || 0 )+1);
     }
+    
+    const tans = [...map.entries()];
+    tans.sort((a,b)=> b[1] - a[1])
+    
+    for(const tan of tans){
+        k-= tan[1];
+        answer++;
+        if(k<=0)    return answer;
+    }
+    
+    console.log(tans)
+    
+    return answer;
 }
