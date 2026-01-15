@@ -1,19 +1,18 @@
 function solution(n, words) {
     const set = new Set();
-    set.add(words[0]);
-
-    for (let i = 1; i < words.length; i++) {
-        const prevWord = words[i - 1];
-        const curWord = words[i];
-
-        if (set.has(curWord) || prevWord[prevWord.length - 1] !== curWord[0]) {
-            const person = i % n + 1;
-            const turn = Math.floor(i / n) + 1;
-            return [person, turn];
+    if(words.length>1)  set.add(words[0]);
+    
+    for(let i=1; i<words.length; i++){
+        const beforeWord = words[i-1];
+        const word = words[i];
+        
+        if(set.has(word) || beforeWord[beforeWord.length-1] !== word[0]){
+            return [i%n + 1, Math.floor(i/n + 1)];
         }
-
-        set.add(curWord);
+        
+        set.add(word);
     }
+    
 
     return [0, 0];
 }
