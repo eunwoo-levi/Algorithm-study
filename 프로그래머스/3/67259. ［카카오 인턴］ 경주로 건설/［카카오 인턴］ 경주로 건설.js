@@ -1,42 +1,32 @@
-let dx = [0,0,1,-1]; // 시계방향 : 위, 오른쪽, 아래, 왼쪽
-let dy = [1,-1,0,0];
-let visited;
-let Board;
-
-function canVisit(x, y, size){
-    if(x<0 || x>=size || y<0 || y>=size) return false;
-    if(Board[x][y]==1) return false;
-    return true;
-}
+const dx = [1, -1 , 0, 0];
+const dy = [0, 0, 1, -1];
 
 function solution(board) {
-    Board = board;
-    let answer;
-    let size = board.length;
-    // 방향에 따른 저장이 추가로 필요하므로, 삼차원 배열 활용
-    let visit = Array.from({length:size},()=>
-                           Array.from({length:size},()=>
-                                      Array(4).fill(Infinity)));
-    visited = visit;
-    let q = [];
-    q.push([0,0,-1,0]); // x, y, 방향, 금액
+    const n = board.length;
+    
+    const costs = Array.from({length: n}, ()=> Array.from({length: n}, 
+                                            () => Array.from({length: 4}, () => Infinity)));
+    const q = [[0, 0, -1, 0]];
+    
     while(q.length){
-        let [x, y, d, cost] = q.shift();
-        for(let i=0; i<4; ++i){
-            let nx = x + dx[i];
-            let ny = y + dy[i];
-            if(canVisit(nx,ny,size)){
-                // 직선  100원, 코너 500원+100원 추가
-                let newCost = d==i? cost+100 : cost+600;
-                if(d<0) newCost = cost+100; // 출발할때(방향 : -1) 항상 직진임
-                if(visited[nx][ny][i]>newCost){
-                    q.push([nx,ny,i,newCost]);
-                    visited[nx][ny][i] = newCost;
+        const [y, x, d, cost] = q.shift();
+        
+        for(let i=0; i<4; i++){
+            const ny = y + dy[i];
+            const nx = x + dx[i];
+            if(nx>=0 && nx<n && ny>=0 && ny<n && board[ny][nx] === 0){
+                let newCost = d === i ? cost + 100 : cost + 600;
+                if(d===-1)  newCost = cost + 100;
+                if(costs[ny][nx][i] > newCost){
+                    costs[ny][nx][i] = newCost;
+                    q.push([ny, nx, i, newCost]);
                 }
             }
         }
     }
-    // console.log(visited);
-    answer = Math.min(...visited[size-1][size-1]);
-    return answer;
+    
+    return Math.min(...costs[n-1][n-1]);
 }
+
+// d => 바로 직전 방향임 (이동 비용은 “이전 방향(d)과 이번 방향(i)이 같은지”로 결정)
+// costs(or visited)가 3차원이어야 하는 이유는 한 문장으로 “같은 칸이라도 ‘어느 방향으로 들어왔는지’에 따라 다음 비용이 달라서, 칸만 같다고 같은 상태가 아니기 때문”
