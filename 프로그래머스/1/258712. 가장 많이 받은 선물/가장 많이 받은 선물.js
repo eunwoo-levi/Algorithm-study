@@ -1,9 +1,11 @@
 function solution(friends, gifts) {
    const n = friends.length
-   const giftPoints = new Array(n).fill(0)
-   const record = Array.from({length:friends.length}, ()=>Array(friends.length).fill(0))
-   const points = new Array(n).fill(0)
+   const giftPoints = Array.from({length: n}, ()=>0)
+    const record = Array.from({length: n}, ()=>Array.from({length: n}, ()=>0));
+   const points = Array.from({length: n}, ()=>0)
    
+
+    
    for(const gift of gifts){
        const [giver, taker] = gift.split(' ')
        record[friends.indexOf(giver)][friends.indexOf(taker)] +=1
@@ -24,3 +26,5 @@ function solution(friends, gifts) {
    } 
     return Math.max(...points)
 }
+
+// 시뮬레이션(구현)
