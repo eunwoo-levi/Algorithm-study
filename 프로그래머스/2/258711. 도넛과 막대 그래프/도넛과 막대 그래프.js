@@ -1,33 +1,29 @@
 function solution(edges) {
-    const map = {}
-
-    // 1차원으로 각 노드의 출발 차수와 도착 차수를 한 번에 계산
-    for (const [start, end] of edges) {
-        if (!map[start]) map[start] = [0, 0];
-        if (!map[end]) map[end] = [0, 0];
+    const degree = new Map();   // node -> [out, in]
+    
+    for(const [start, end] of edges){
+        if(!degree.has(start))   degree.set(start, [0, 0]);
+        if(!degree.has(end)) degree.set(end, [0, 0]);
+        degree.get(start)[0]++;     // outDegree
+        degree.get(end)[1]++;       // inDegree
         
-        map[start][0]++;  // 출발 차수 증가
-        map[end][1]++;    // 도착 차수 증가
     }
-
-    let addedNode = 0;
-    let donutGraph = 0;
-    let lineGraph = 0;
-    let eightGraph = 0;
-
-    // 한 번만 순회하면서 결과 계산
-    for (const [start, [given, received]] of Object.entries(map)) {
-        if (given > 1 && received === 0) {
-            addedNode = start; // addedNode 찾기
-        } else if (given === 0) {
-            lineGraph++;  // 선이 끝나는 노드 카운트
-        } else if (given > 1 && received > 1) {
-            eightGraph++; // 팔 모양 노드 카운트
-        }
+    
+    let addedVertex = 0, line = 0, donut = 0, eight = 0;
+    
+    for(const [node , [outD, inD]] of degree){
+        if(inD === 0 && outD >= 2)  addedVertex = node;
+        else if(outD === 0)  line++;
+        else if(inD >= 2 && outD >= 2)  eight++;
     }
-
-    // 도넛 노드 계산
-    donutGraph = map[addedNode][0] - lineGraph - eightGraph;
-
-    return [Number(addedNode), donutGraph, lineGraph, eightGraph];
+    
+    let totalGraphs = degree.get(addedVertex)[0];
+    donut = totalGraphs - line - eight;
+    
+    return [addedVertex, donut, line, eight];
 }
+
+// 부분 그래프 갯수 (전체 갯수) = 정점으로 부터 Out Degree 갯수
+// 막대 그래프 갯수 = Out Degree가 0인 갯수
+// 8자 모양 그래프 = In Degree와 Out Degree 갯수가 각각 2개 이상
+
