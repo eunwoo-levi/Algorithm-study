@@ -1,19 +1,17 @@
 function solution(triangle) {
-  const n = triangle.length;
-  const dp = new Array(n).fill(0);
-  dp[0] = triangle[0][0];
-
-  for (let i = 1; i < n; i++) {
-    for (let j = i; j >= 0; j--) {
-      if (j === i) dp[j] = dp[j - 1] + triangle[i][j];
-      else if (j === 0) dp[j] = dp[j] + triangle[i][j];
-      else dp[j] = Math.max(dp[j - 1], dp[j]) + triangle[i][j];
+    const N = triangle.length;
+    const dp = Array.from({length: N}, ()=> Array.from({length: N}, ()=> 0));
+    dp[0][0] = triangle[0][0]
+    
+    for(let i=1; i<N; i++){
+        for(let j=0; j<=i; j++){
+            if(j==0)    dp[i][0] = dp[i-1][0] + triangle[i][j]
+            else if(j===i)  dp[i][j] = dp[i-1][j-1] + triangle[i][j]
+            else    dp[i][j] = Math.max(dp[i-1][j-1], dp[i-1][j]) + triangle[i][j]
+        }
     }
-  }
-
-  let ans = 0;
-  for (let i = 0; i < n; i++) {
-    if (dp[i] > ans) ans = dp[i];
-  }
-  return ans;
+    
+    return Math.max(...dp[N-1])
 }
+
+// DP
