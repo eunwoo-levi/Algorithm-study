@@ -1,20 +1,19 @@
 function solution(operations) {
-    const queue = [];
+    const pq = [];
     
-    for (let op of operations){
-        const [a, b] = op.split(" ");
+    for(const operation of operations){
+        const [op, num] = operation.split(" ");
         
-        if(a==='I'){
-            queue.push(Number(b));
-            queue.sort((a,b)=>a-b);
+        if(op==='I'){
+            pq.push(Number(num));
+            pq.sort((a,b)=>a-b);
         }
         
         else{
-            if(b==="1") queue.pop();
-            else    queue.shift();
+            if(num==='1')   pq.pop();
+            else    pq.shift();
         }
-        
     }
     
-    return queue.length===0 ? [0,0] : [queue[queue.length-1], queue[0]];
+    return pq.length===0 ? [0,0] : [pq[pq.length-1], pq[0]];
 }
