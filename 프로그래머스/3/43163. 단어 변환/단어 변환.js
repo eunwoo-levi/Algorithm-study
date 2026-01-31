@@ -1,31 +1,29 @@
-// 최소 단계 반환 + 이미 방문한 단어는 방문 X => BFS
 function solution(begin, target, words) {
-  if (!words.includes(target)) return 0;
-
-  const visited = new Array(words.length).fill(false);
-  const queue = [[begin, 0]];
-  let head = 0;
-
-  while (head < queue.length) {
-    const [curWord, cnt] = queue[head++];
-
-    if (curWord === target) return cnt;
-
-    for (let i = 0; i < words.length; i++) {
-      if (visited[i]) continue;
-
-      let diff = 0;
-      for (let j = 0; j < words[i].length; j++) {
-        if (words[i][j] !== curWord[j]) diff++;
-        if (diff > 1) break; // ✅ 빨리 탈출
-      }
-
-      if (diff === 1) {
-        visited[i] = true;
-        queue.push([words[i], cnt + 1]);
-      }
+    const visited = Array.from({length: words.length}, ()=> false);
+    const queue = [[begin, 0]];
+    
+    function isValid(A, B){
+        let diff = 0;
+        for(let i=0; i<A.length; i++){
+            if(A[i] !== B[i])   diff++;
+        }
+        
+        return diff === 1;
     }
-  }
-
-  return 0;
+    
+    while(queue.length!==0){
+        const [word, count] = queue.shift();
+        if(word===target)   return count;
+        
+        for(let i=0; i<words.length; i++){
+            if(!visited[i] && isValid(word, words[i])){
+                visited[i] = true;
+                queue.push([words[i], count+1]);
+            }
+        }
+    }
+    
+    return 0;
 }
+
+// BFS <- 최소 단계
