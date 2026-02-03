@@ -1,78 +1,93 @@
 function solution(dice) {
-  const n = dice.length;
-  const half = n / 2;
-  let maxWin = -1;
-  let answer = [];
-
-  // 합 경우의 수 캐싱: bitmask -> sums[]
-  const sumCache = new Map();
-
-  // 주사위 조합 DFS
-  function dfs(start, picked) {
-    if (picked.length === half) {
-      const A = picked;
-      const B = [];
-      for (let i = 0; i < n; i++) {
-        if (!picked.includes(i)) B.push(i);
-      }
-
-      const sumA = getSums(A);
-      const sumB = getSums(B);
-
-      sumA.sort((a, b) => a - b);
-      sumB.sort((a, b) => a - b);
-
-      let win = 0;
-      for (const a of sumA) {
-        win += lowerBound(sumB, a);
-      }
-
-      if (win > maxWin) {
-        maxWin = win;
-        answer = A.map(i => i + 1); // 문제는 1-based index
-      }
-      return;
-    }
-
-    for (let i = start; i < n; i++) {
-      picked.push(i);
-      dfs(i + 1, picked);
-      picked.pop();
-    }
-  }
-
-  // 특정 주사위 조합의 합 경우의 수
-  function getSums(indices) {
-    const mask = indices.reduce((m, i) => m | (1 << i), 0);
-    if (sumCache.has(mask)) return sumCache.get(mask);
-
-    const res = [];
-    function dfsSum(idx, sum) {
-      if (idx === indices.length) {
-        res.push(sum);
-        return;
-      }
-      for (const face of dice[indices[idx]]) {
-        dfsSum(idx + 1, sum + face);
-      }
-    }
-
-    dfsSum(0, 0);
-    sumCache.set(mask, res);
-    return res;
-  }
-
-  // lowerBound: target보다 작은 원소 개수
-  function lowerBound(arr, target) {
-    let l = 0, r = arr.length;
-    while (l < r) {
-      const mid = (l + r) >> 1;
-      if (arr[mid] < target) l = mid + 1;
-      else r = mid;
-    }
-    return l;
-  }
-
-  dfs(0, []);
-  return answer;
+    const N = dice.length;
+    
+    const combinations = combination(N, N / 2);
+    let answer = [], answerCount = 0;
+    
+    combinations.forEach((comb) => {
+        const [diceA, diceB] = getDices(comb, dice, N);
+        
+        const arrA = getOutcomes(diceA, N / 2);
+        const arrB = getOutcomes(diceB, N / 2).sort((a, b) => a - b);
+        
+        const winCount = calculateWinCount(arrA, arrB);
+        
+        if(winCount > answerCount) {
+            answer = comb;
+            answerCount = winCount;
+        }
+    })
+    
+    return answer.map((v) => v + 1);
 }
+ 
+function combination(n, c){
+    const result = [];
+    function dfs(curArr, idx){
+        if(curArr.length===c){
+            result.push([...curArr]);
+            return;
+        }
+        
+        for(let i=idx; i<n; i++){
+            curArr.push(i);
+            dfs(curArr, i+1);
+            curArr.pop();
+        }
+    }
+    
+    dfs([], 0);
+    return result;
+}
+ 
+function getDices(chosen, dice, N) {
+    const diceA = [], diceB = [];
+    
+    let idx=0;
+    for(let i=0; i<N; i++){
+        if(chosen[idx] === i) {
+            diceA.push(dice[i]); idx++;
+        }
+        else diceB.push(dice[i]);
+    }
+    
+    return [diceA, diceB];
+}
+ 
+function getOutcomes(dices, N) {
+    const result = [];
+    function combination(idx, sum){
+        if(idx === N){
+            result.push(sum);
+            return;
+        }
+        
+        for(let i=0; i<6; i++) combination(idx + 1, sum + dices[idx][i]);
+    }
+    combination(0, 0);
+    return result;
+}
+ 
+function calculateWinCount(arrA, arrB) {
+    let count = 0;
+    
+    arrA.forEach((v) => {
+        let left=0, right = arrB.length - 1, mid;
+        let rowCount = -1;
+        
+        while(left <= right) {
+            mid = Math.floor((left + right) / 2);
+            
+            if(arrB[mid] < v){
+                rowCount = Math.max(mid, rowCount);
+                left = mid + 1;
+            }
+            else right = mid - 1;
+        }
+        count += rowCount + 1;
+    })
+    
+    return count;
+}
+ 
+// https://fordang.tistory.com/245
