@@ -2,17 +2,18 @@ function solution(n, computers) {
     var answer = 0;
     const visited = Array.from({length: n}, ()=> false);
     
-    function dfs(index){
-        visited[index] = true;
+    
+    function dfs(idx){
+        visited[idx] = true;
         
-        for(let i=0; i < computers[index].length; i++){
-            if(!visited[i] && computers[index][i] === 1){
+        for(let i=0; i < computers[idx].length; i++){
+            if(!visited[i] && computers[idx][i]===1){
                 dfs(i);
             }
         }
     }
     
-
+    // Node 차례대로 start!
     for(let i=0; i<n; i++){
         if(!visited[i]){
             answer++;
@@ -22,5 +23,3 @@ function solution(n, computers) {
     
     return answer;
 }
-
-// DFS
