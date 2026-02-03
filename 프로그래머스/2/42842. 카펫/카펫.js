@@ -7,11 +7,12 @@ function solution(brown, yellow) {
     for(let x=1; x<=yellow; x++){
         if(yellow%x===0){
             let y = yellow / x;
-            if(brown ===(x+2)*(y+2)-yellow){
-                return [x+2, y+2].sort((a,b)=>b-a)
+            if(x*y === yellow){
+                if((x+2)*(y+2) - yellow === brown){
+                    if(x<y) [x, y] = [y, x];
+                    return [x+2, y+2];
+                }
             }
         }
     }
-    
-    return [0,0];
 }
