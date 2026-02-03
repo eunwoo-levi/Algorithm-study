@@ -1,13 +1,7 @@
 function solution(nums) {
-    let res = 0;
-    
+    const half = Math.floor(nums.length/2)
     const set = new Set(nums);
-    const size = set.size;
     
-    if(nums.length/2>size){
-        return size
-    }
-    else{
-        return nums.length/2
-    }
+    
+    return set.size >= half ? half : set.size
 }
