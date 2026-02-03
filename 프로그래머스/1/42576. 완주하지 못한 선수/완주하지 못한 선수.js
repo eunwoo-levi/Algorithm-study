@@ -1,23 +1,15 @@
 function solution(participant, completion) {
-    const obj = {}
+    const map = new Map();
     
-    for(let i of participant){
-        if(obj[i]){
-            obj[i]+=1
-        }
-        else{
-            obj[i]=1
-        }
+    for(const p of participant){
+        map.set(p, (map.get(p) | 0) + 1 );
     }
     
-    for(let i of completion){
-        obj[i]-=1;
+    for(const c of completion){
+        map.set(c, map.get(c) - 1);
     }
     
-    for(let key in obj){
-        if(obj[key]>0){
-            return key
-        }
+    for(const [k, v] of [...map.entries()]){
+        if(v!==0)   return k;
     }
-    
 }
