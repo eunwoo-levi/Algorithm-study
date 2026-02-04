@@ -1,33 +1,36 @@
 function solution(genres, plays) {
     var answer = [];
-    const N = genres.length;
-    const albumsMap = new Map();
     
-    for(let i=0; i<N; i++){
-        if(!albumsMap.get(genres[i])){
-            albumsMap.set(genres[i], {total: 0, songs: []});
+    const genreMap = new Map();
+    
+    for(let i=0; i<genres.length; i++){
+        genreMap.set(genres[i], {total: 0, songs: []});
+    }  
+    
+    for(let i=0; i<genres.length; i++){
+        const g = genreMap.get(genres[i]);
+        if(!g){
+            genreMap.set(genres[i], {total: plays[i], songs: [{id: i, play: plays[i]}]});
         }
-        const album = albumsMap.get(genres[i]);
-                       
-        album.total += plays[i];
-        album.songs.push({index: i, play: plays[i]});
-    }
-    
-    const albums = [...albumsMap.entries()]
-    albums.sort((a,b)=>{
-        return b[1].total - a[1].total
-    })
-    
-    
-    for(const album of albums){
-        album[1].songs.sort((a,b)=>{
-            if(b.play===a.play) return a.index - b.index;
-            return b.play - a.play;
-        })
         
-        answer.push(album[1].songs[0].index)
-        if (album[1].songs.length > 1) answer.push(album[1].songs[1].index);
+        else{
+            g.total += plays[i];
+            g.songs.push({id: i, play: plays[i]});
+        }
     }
+    
+    const genreArr = [...genreMap].sort((a,b)=>b[1].total - a[1].total)
+    
+    genreArr.forEach((genre, idx)=>{
+        genre[1].songs.sort((a,b)=> b.play - a.play)
+        
+        genre[1].songs.forEach((s,idx)=>{
+            if(idx<2){
+                answer.push(s.id);
+            }
+        })
+
+    })
     
     return answer;
 }
