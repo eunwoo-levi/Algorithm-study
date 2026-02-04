@@ -1,18 +1,19 @@
-// hash
 function solution(clothes) {
-    var answer = 1;
-    const map = {};
+    let answer = 1;
+    const map = new Map();
     
-    for(let [item, category] of clothes){
-        map[category] = map[category] ? [...map[category], item] : [item];
+    for(const [item , type] of clothes){
+        if(map.has(type)){
+            map.get(type).push(item);
+        }
+        else    map.set(type, [type]);
     }
     
-    console.log(map)
+    const clothesValue = [...map.values()];
     
-    Object.values(map).forEach(v=>{
-        answer*=v.length+1
-    })
+    for (const v of clothesValue){
+        answer *= v.length+1;
+    }
     
-    
-    return answer-1;
+    return answer - 1;
 }
