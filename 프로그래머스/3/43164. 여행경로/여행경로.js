@@ -1,24 +1,30 @@
 function solution(tickets) {
-  const answer = [];
-  const len = tickets.length;
-	const visited = Array(len).fill(false);
-
-	const dfs = (routes) => {
-    if (routes.length === len + 1) answer.push(routes);
-
-    for (const idx in tickets) {
-      const [start, end] = tickets[idx];
-      if (!visited[idx]) {
-        if (routes.at(-1) === start) {
-          visited[idx] = true;
-          dfs([...routes, end]);
-          visited[idx] = false;
-        }
-      }
+    const graph = {};
+    
+    // 1. 그래프 구성
+    for (const [from, to] of tickets) {
+        if (!graph[from]) graph[from] = [];
+        graph[from].push(to);
     }
-  };
-
-  dfs(["ICN"]);
-
-  return answer.sort()[0];
+    
+    // 2. 사전순 정렬
+    for (const key in graph) {
+        graph[key].sort();
+    }
+    
+    const route = [];
+    
+    // 3. DFS (Hierholzer)
+    function dfs(airport) {
+        while (graph[airport] && graph[airport].length > 0) {
+            const next = graph[airport].shift(); // 사전순
+            dfs(next);
+        }
+        route.push(airport);
+    }
+    
+    dfs("ICN");
+    
+    // 4. 역순이 정답
+    return route.reverse();
 }
