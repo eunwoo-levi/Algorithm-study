@@ -1,35 +1,35 @@
 function solution(n, costs) {
-    let answer = 0, picked = 0;
-    const parent = Array.from({length: n}, (_, i)=> i);
+    let answer = 0;
+    let edgy = 0;
+    let parent = Array.from({length: n}, (_, i)=>i);
     
-    // 1) 비용 오름차순 - 크루스칼은 해야함 (-> 그리디)
-    costs.sort((a,b)=> a[2]-b[2]);
+    costs.sort((a,b)=>a[2]-b[2]);
     
-    // 2) Union-Find - 싸이클 안생기기 위해.
+    // Kruskal
+    for(const [a, b, cost] of costs){
+        if(union(a, b)){
+            edgy++;
+            answer += cost;
+        }
+        
+        if(edgy===n-1)  return answer
+    }
+    
+    function union(a, b){
+        const pA = find(a);
+        const pB = find(b);
+
+        if(pA===pB) return false;
+        parent[pB] = pA;
+        return true;
+    }
+
     function find(x){
         if(parent[x]===x)   return x;
         parent[x] = find(parent[x]);
         return parent[x];
     }
     
-    function union(x,y){
-        const rx = find(x);
-        const ry = find(y);
-        
-        if(rx === ry)   return false;
-        parent[ry] = rx;
-        return true;
-    }
-    
-    // 3) Kruskal
-    for(const [a, b, cost] of costs){
-        if(union(a,b)){
-            answer+=cost;
-            picked++;
-        }
-        
-        if(picked === n-1)  return answer;
-    }
     
     return answer;
 }
