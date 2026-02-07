@@ -1,35 +1,20 @@
-// 소수 판별 함수 수정
-function isPrime(n) {
-    if (n <= 1) return false;
-    if (n === 2) return true;
-    for (let i = 2; i <= Math.sqrt(n); i++) {
-        if (n % i === 0) {
-            return false;
-        }
+function solution(n, k) {
+    var answer = 0;
+    
+    const binary = n.toString(k).split("0");
+    for(let i=0; i<binary.length; i++){
+        if(isPrime(binary[i]))  answer++;
     }
-    return true;
+    
+    return answer;
 }
 
-function solution(n, k) {
-    let answer = 0;
-
-    // n을 k진법으로 변환
-    let digit = "";
-    while (n > 0) {
-        digit = (n % k) + digit;
-        n = Math.floor(n / k);
+function isPrime(k){
+    if(k<2) return false;
+    
+    for(let i=2; i*i <=k; i++){
+        if(k%i===0) return false;
     }
-
-    // 0을 기준으로 숫자 나누기
-    const parts = digit.split('0');
-
-    // 나눠진 부분이 소수인지 확인
-    for (const part of parts) {
-        if(isPrime(Number(part))){
-            answer++;
-        }
-        
-    }
-
-    return answer;
+    
+    return true;
 }
