@@ -1,30 +1,24 @@
 function solution(cacheSize, cities) {
-    let res = 0;
+    var answer = 0;
+    const cacheArr = [];
     
-    const cache = [];
+    if(cacheSize===0)   return 5 * cities.length;
     
     for(let i=0; i<cities.length; i++){
-        const city = cities[i].toLowerCase()
-        if(cache.includes(city)){
-            res+=1
-            cache.splice(cache.indexOf(city),1);
-            cache.unshift(city);
+        const city = cities[i].toLowerCase();
+        const idx = cacheArr.indexOf(city);
+        //  Miss
+        if(idx===-1){
+            if(cacheArr.length===cacheSize) cacheArr.shift();
+            answer+=5;
         }
-        
+        //  Hit
         else{
-            res+=5;
-            if(cacheSize===0){
-                continue;
-            }
-            if(cache.length===cacheSize){
-                cache.pop();
-                cache.unshift(city);
-            }
-            else{
-                cache.unshift(city);
-            }
+            cacheArr.splice(idx, 1);
+            answer++;
         }
+        cacheArr.push(city);
     }
     
-    return res;
+    return answer;
 }
