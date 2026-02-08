@@ -1,19 +1,18 @@
 function solution(n, t, m, p) {
-    let result = "";
-    let numStr = "";
-    let num = 0;
+    var answer = '';
     
-    // 필요한 길이만큼 변환된 숫자 문자열 생성 , 전체 기회 갯수: t(1명 당 숫자 총 갯수) * m(명)
-    while (numStr.length < t * m) {
-        numStr += num.toString(n).toUpperCase();
-        num++;
+    let game = ''
+    for(let i=0; i<t*m; i++){
+        const binary =  i.toString(n);
+        game+=binary;
     }
-
-    // 본인의 순서에 해당하는 숫자만 추출
-    for (let i = 0; i < t; i++) {
-        result += numStr[i * m + (p - 1)];
+    
+    let idx = 0;
+    while(answer.length!==t){
+        if(Math.floor(idx%m)===p-1) answer += game[idx];
+        idx++;
     }
-
-    return result;
+    
+    
+    return answer.toUpperCase();
 }
-
