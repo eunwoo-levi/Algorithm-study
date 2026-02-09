@@ -1,24 +1,32 @@
+// 1. key: id 기준으로 닉네임 담은 map 필요할 듯
+// 2. 배열에 들어온 순서대로 [id, Enter | Leave] 하면 될듯
+
 function solution(record) {
-    const result = [];
-    const userMap = {}; // userId -> nickname
-
-    // 1. 유저 아이디별 닉네임 최신화
-    record.forEach(r => {
-        const [type, uid, name] = r.split(" ");
-        if (type === "Enter" || type === "Change") {
-            userMap[uid] = name;
+    var answer = [];
+    
+    const records = [];
+    const userMap = new Map();
+    
+    for(r of record){
+        const [type, id, name] = r.split(' ');
+        if(type!=='Leave'){
+            if(!userMap.has(id))    userMap.set(id, '');
+            userMap.set(id, name);
         }
-    });
-
-    // 2. 메시지 만들기
-    record.forEach(r => {
-        const [type, uid] = r.split(" ");
-        if (type === "Enter") {
-            result.push(`${userMap[uid]}님이 들어왔습니다.`);
-        } else if (type === "Leave") {
-            result.push(`${userMap[uid]}님이 나갔습니다.`);
+            
+        if(type!=='Change')    records.push([id, type]);
+    }
+    
+    for(r of records){
+        const [id, type] = r;
+        const name = userMap.get(id);
+        if(type==='Enter'){
+            answer.push(`${name}님이 들어왔습니다.`)
         }
-    });
-
-    return result;
+        else{
+            answer.push(`${name}님이 나갔습니다.`)
+        }
+    }
+    
+    return answer;
 }
