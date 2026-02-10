@@ -8,7 +8,7 @@ function solution(queue1, queue2) {
     let l=0, r=queue1.length, target = total/2;
     let currentSum = queue1.reduce((acc, cur)=>acc+cur, 0);
     
-    while(r<queue.length){
+    while(answer<queue.length*2){     // r<queue.length만 하게되면 r이 끝나도 l++가 계속 되는 경우 안됌
         if(currentSum===target)    return answer;
         
         else if(currentSum > target){
