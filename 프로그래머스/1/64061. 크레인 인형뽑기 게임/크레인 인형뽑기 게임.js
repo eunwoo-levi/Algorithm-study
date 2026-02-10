@@ -1,25 +1,28 @@
 function solution(board, moves) {
     var answer = 0;
+    const stack = [];
+    const row = board.length;
     
-    let stack = []
-    
-    for(let i=0; i<moves.length;i++){
-        for(let j=0; j<board.length;j++){
-            if(board[j][moves[i]-1]!==0){
-                if( stack[stack.length-1] ===board[j][moves[i]-1]){
-                    stack.pop()
-                    answer+=2;
-                }
-                
+    for(const move of moves){
+        for(let i=0; i < row; i++){
+            const found = board[i][move-1];
+            if(found!==0){
+                board[i][move-1] = 0;
+                // 잡은 인형들 넣은 stack 안에서 이제 넣거나 터트리는 로직
+                if(stack.length === 0)  stack.push(found);
                 else{
-                    stack.push(board[j][moves[i]-1])
+                    if(found===stack[stack.length-1]){
+                        stack.pop();
+                        answer+=2;
+                    }
+                    else    stack.push(found);
                 }
-                
-                board[j][moves[i]-1] = 0;
                 break;
             }
         }
+        
     }
+        console.log(stack)
     
     return answer;
 }
