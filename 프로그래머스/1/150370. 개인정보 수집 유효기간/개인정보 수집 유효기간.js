@@ -1,32 +1,36 @@
+// 1달 = 28일
+// 1년 = 28 * 12 일
+
 function solution(today, terms, privacies) {
     var answer = [];
+    const types = new Map();
     
-    let obj = {};
+    const todayDays = convertToDays(today)
     
-    terms.forEach((term) => {
-        const [a, b] = term.split(" ")
-        obj[a] = +b;
-    })
-    
-    let count = 1;
-    
-    const [ty, tm, td] = today.split(".").map(Number);
-    
-    const tdays = ty * 12 * 28 + tm * 28 + td;
-    
-    privacies.forEach((p) => {
-        const [date, term] = p.split(" ")
+    // 1) terms에 있는거 map에 하나씩 넣기.
+    for(const term of terms){
+        const [type, month] = term.split(' ');
+        types.set(type, month);
+    }
+    // 2) privacy 하나씩 검사.
+    for(let i=0; i < privacies.length; i++){
+        const [date, type] = privacies[i].split(' ');
+        const termMonth = types.get(type);
         
-        const [y, m, d] = date.split(".").map(Number);
+        const privacyDays = convertToDays(date)
         
-        const days = y * 12 * 28 + m * 28 + d + obj[term] * 28 - 1;
+        console.log('@',termMonth*28)
+        console.log(todayDays-privacyDays)
         
-        if (tdays > days) {
-            answer.push(count)
+        if(termMonth*28 <= todayDays-privacyDays){
+            answer.push(i+1);
         }
-        
-        count++;
-    })
+    }
     
     return answer;
+}
+
+function convertToDays(date){
+    const [year, month, day] = date.split('.').map(Number);
+    return year * 28 * 12 + month * 28 + day;
 }
