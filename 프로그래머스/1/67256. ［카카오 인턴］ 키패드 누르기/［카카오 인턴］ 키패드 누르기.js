@@ -1,77 +1,56 @@
 function solution(numbers, hand) {
-  let answer = [];
-  let leftHand = "*";
-  let rightHand = "#";
-
-  const KEYPAD = {
-    1: [0, 0],
-    2: [0, 1],
-    3: [0, 2],
-    4: [1, 0],
-    5: [1, 1],
-    6: [1, 2],
-    7: [2, 0],
-    8: [2, 1],
-    9: [2, 2],
-    "*": [3, 0],
+  const keypad = {
+    1: [0, 0], 2: [0, 1], 3: [0, 2],
+    4: [1, 0], 5: [1, 1], 6: [1, 2],
+    7: [2, 0], 8: [2, 1], 9: [2, 2],
     0: [3, 1],
-    "#": [3, 2],
+    '*': [3, 0],
+    '#': [3, 2],
   };
 
-  const LEFT_PAD = [1, 4, 7];
-  const RIGHT_PAD = [3, 6, 9];
+  let leftPos = keypad['*'];
+  let rightPos = keypad['#'];
+  let answer = '';
 
-  const getDistance = (cur, tar) => {
-    const currentPosition = KEYPAD[cur];
-    const targetPosition = KEYPAD[tar];
+  for (const num of numbers) {
+    const [x, y] = keypad[num];
 
-    return (
-      Math.abs(currentPosition[0] - targetPosition[0]) +
-      Math.abs(currentPosition[1] - targetPosition[1])
-    );
-  };
-
-  numbers.forEach((number) => {
-    if (LEFT_PAD.includes(number)) {
-      answer.push("L");
-      leftHand = number;
-      return;
-    }
-    if (RIGHT_PAD.includes(number)) {
-      answer.push("R");
-      rightHand = number;
-      return;
+    // 왼쪽 고정
+    if ([1, 4, 7].includes(num)) {
+      answer += 'L';
+      leftPos = [x, y];
+      continue;
     }
 
-    const distanceToLeft = getDistance(leftHand, number);
-    const distanceToRight = getDistance(rightHand, number);
+    // 오른쪽 고정
+    if ([3, 6, 9].includes(num)) {
+      answer += 'R';
+      rightPos = [x, y];
+      continue;
+    }
 
-    if (distanceToLeft === distanceToRight) {
-      if (hand === "right") {
-        answer.push("R");
-        rightHand = number;
-        return;
+    // 가운데 숫자
+    const leftDist =
+      Math.abs(leftPos[0] - x) + Math.abs(leftPos[1] - y);
+    const rightDist =
+      Math.abs(rightPos[0] - x) + Math.abs(rightPos[1] - y);
+
+    if (leftDist < rightDist) {
+      answer += 'L';
+      leftPos = [x, y];
+    } else if (leftDist > rightDist) {
+      answer += 'R';
+      rightPos = [x, y];
+    } else {
+      if (hand === 'left') {
+        answer += 'L';
+        leftPos = [x, y];
+      } else {
+        answer += 'R';
+        rightPos = [x, y];
       }
-
-      if (hand === "left") {
-        answer.push("L");
-        leftHand = number;
-        return;
-      }
     }
+  }
 
-    if (distanceToLeft > distanceToRight) {
-      answer.push("R");
-      rightHand = number;
-      return;
-    }
-
-    if (distanceToLeft < distanceToRight) {
-      answer.push("L");
-      leftHand = number;
-      return;
-    }
-  });
-
-  return answer.join("");
+  return answer;
 }
