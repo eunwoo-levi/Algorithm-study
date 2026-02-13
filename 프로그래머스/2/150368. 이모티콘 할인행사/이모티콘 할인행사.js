@@ -1,54 +1,57 @@
 function solution(users, emoticons) {
-    let maxSubscribers = 0;     // 최대 구독자수
-    let maxRevenue = 0;         // 최대 매출액
+  let maxService = 0;   // 최대 가입자 수
+  let maxRevenue = 0;   // 최대 매출
 
-    // 깊이 우선 탐색(DFS)을 사용하여 모든 가능한 할인 조합을 탐색합니다.
-    // discounts: 각 이모티콘에 적용된 할인율을 저장하는 배열, // index:현재 처리 중인 이모티콘의 인덱스
-    function dfs(discounts, index) {      
-        
-        // 모든 이모티콘에 대한 할인율이 결정되면 결과를 계산
-        if (index === emoticons.length) {
-            let subscribers = 0;
-            let revenue = 0;
+  function dfs(index, discounts) {
+    // 모든 이모티콘의 할인율을 정한 경우
+    if (index === emoticons.length) {
+      let service = 0;
+      let revenue = 0;
 
-            for (const [userDiscount, userLimit] of users) {
-                let userPurchase = 0;
-                
-                for (let i = 0; i < emoticons.length; i++) {
-                    if (discounts[i] >= userDiscount) {
-                        userPurchase += emoticons[i] * (100 - discounts[i]) / 100;
-                    }
-                }
-                
-                if (userPurchase >= userLimit) {
-                    subscribers++;
-                } 
-                else {
-                    revenue += userPurchase;
-                }
-            }
-            
-            // 서비스 가입자가 더 많거나  ,  혹은 서비스 가입자는 같지만 이모티콘 판매액이 더 클때
-            if (subscribers > maxSubscribers || (subscribers === maxSubscribers && revenue > maxRevenue)) {
-                maxSubscribers = subscribers;
-                maxRevenue = revenue;
-            }
-            return;
+      // 각 사용자에 대해 계산
+      for (const [userDiscount, userLimit] of users) {
+        let userPurchase = 0;
+
+        for (let i = 0; i < emoticons.length; i++) {
+          if (discounts[i] >= userDiscount) {
+            userPurchase += emoticons[i] * (100 - discounts[i]) / 100;
+          }
         }
-        
-        //  if (index === emoticons.length) 기저 조건 될때까지 "모든 가능한 할인 조합" 을 탐색
-        for (let discount of [10, 20, 30, 40]) {
-            discounts[index] = discount;
-            dfs(discounts, index + 1);
+
+        // 가입 여부 판단
+        if (userPurchase >= userLimit) {
+          service++;
+        } else {
+          revenue += userPurchase;
         }
+      }
+
+      // 최적값 갱신
+      if (
+        maxService < service ||
+        (maxService === service && maxRevenue < revenue)
+      ) {
+        maxService = service;
+        maxRevenue = revenue;
+      }
+
+      return;
     }
 
-    // new Array 랑 Array는 기능상 같다.
-    // 1번 예제로, emotions.length 은 2이므로 바로 위에 for문을 통해서 [10,10], [10,20], .... [40,40] 총 16가지 비교
-    
-    initialDiscounts = Array(emoticons.length).fill(0)
-    dfs(initialDiscounts, 0);
-    
-    return [maxSubscribers, Math.floor(maxRevenue)];
-}
+    // 현재 이모티콘의 할인율을 4가지 중 하나로 설정
+    for (const discount of [10, 20, 30, 40]) {
+      discounts[index] = discount;
+      dfs(index + 1, discounts);
+    }
+  }
 
+  // 할인율 배열 초기화
+  const initialDiscount = Array.from(
+    { length: emoticons.length },
+    () => 0
+  );
+
+  dfs(0, initialDiscount);
+
+  return [maxService, Math.floor(maxRevenue)];
+}
