@@ -11,7 +11,7 @@ function solution(n, info) {
             
             let sum=0;
             for(let i=0; i<info.length;i++){
-                if(ryan[i] > info[i]){
+                if(ryan[i] > info[i]){          // ryan[i] <= info[i] 이건 둘 다 0점일 경우도 포함되기 때문에 안됌
                     sum+=10-i;
                 }
                 else if (info[i]){
