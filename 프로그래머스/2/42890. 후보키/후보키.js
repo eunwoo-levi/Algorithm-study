@@ -1,35 +1,41 @@
 function solution(relation) {
-  const row = relation.length;
   const col = relation[0].length;
+  const row = relation.length;
   const candidateKeys = [];
 
-  // 비트마스크 사용
-  for (let bit = 1; bit < (1 << col); bit++) {
+  // 길이 1부터 n까지
+  for (let size = 1; size <= col; size++) {
+    combination(0, [], size);
+  }
 
+  function combination(start, path, size) {
+    if (path.length === size) {
+      check(path);
+      return;
+    }
+
+    for (let i = start; i < col; i++) {
+      combination(i + 1, [...path, i], size);
+    }
+  }
+
+  function check(cols) {
     // 1️⃣ 최소성 검사
-    let isMinimal = true;
     for (const key of candidateKeys) {
-      if ((key & bit) === key) {
-        isMinimal = false;
-        break;
+      if (key.every(k => cols.includes(k))) {
+        return;
       }
     }
-    if (!isMinimal) continue;
 
     // 2️⃣ 유일성 검사
     const set = new Set();
     for (let i = 0; i < row; i++) {
-      let str = '';
-      for (let j = 0; j < col; j++) {
-        if (bit & (1 << j)) {
-          str += relation[i][j] + '|';
-        }
-      }
+      const str = cols.map(col => relation[i][col]).join('|');
       set.add(str);
     }
 
     if (set.size === row) {
-      candidateKeys.push(bit);
+      candidateKeys.push(cols);
     }
   }
 
