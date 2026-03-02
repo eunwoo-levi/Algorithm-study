@@ -1,31 +1,24 @@
-from collections import deque
-
-def solution(queue1, queue2):
-    sum_1 = sum(queue1)
-    sum_2 = sum(queue2)
-    total = sum_1 + sum_2
-    if(total%2 != 0):
+def solution(que1, que2):
+    answer = 0
+    queSum = (sum(que1) + sum(que2))
+    if queSum % 2:
         return -1
-    target = total//2
-    
-    queue_1 = deque(queue1)
-    queue_2 = deque(queue2)
-    
-    count = 0
-    while(count < 3*len(queue1)):
-        if sum_1 == target:
-            return count
-        elif sum_1>target:
-            front = queue_1.popleft()
-            queue_2.append(front)
-            sum_1 -= front
-            sum_2 += front
-        else:
-            front = queue_2.popleft()
-            queue_1.append(front)
-            sum_2 -= front
-            sum_1 += front
-        
-        count+=1
+    target = queSum // 2
 
-    return -1
+    n = len(que1)
+    start = 0
+    end = n - 1
+
+    cur = sum(que1)
+    que3 = que1 + que2
+    while cur != target:
+        if cur < target:
+            end += 1
+            if end == n * 2:
+                return -1
+            cur += que3[end]
+        else:
+            cur -= que3[start]
+            start += 1
+        answer += 1
+    return answer
