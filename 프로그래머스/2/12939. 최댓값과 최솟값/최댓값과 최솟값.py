@@ -1,3 +1,5 @@
 def solution(s):
-    nums = list(map(int, s.split(" ")))
-    return f"{min(nums)} {max(nums)}"
+    answer = list(map(int, s.split(' ')))
+    
+    return f"{min(answer)} {max(answer)}"
+    
