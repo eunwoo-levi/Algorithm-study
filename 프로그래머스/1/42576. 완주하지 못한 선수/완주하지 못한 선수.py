@@ -1,9 +1,11 @@
 from collections import Counter
 
 def solution(participant, completion):
+    
     p = Counter(participant)
     c = Counter(completion)
+    answer = list((p-c).keys())
     
-    diff = p-c;
+    return answer[0]
     
-    return list(diff.keys())[0]
+    
