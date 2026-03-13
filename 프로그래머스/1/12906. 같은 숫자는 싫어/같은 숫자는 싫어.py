@@ -1,9 +1,11 @@
+from collections import Counter
+
 def solution(arr):
-    answer = []
+    answer = [arr[0]]
     
-    for a in arr:
-        if len(answer) == 0 or answer[-1] != a:
-            answer.append(a)
-        
+    
+    for num in arr[1:]:
+        if answer[len(answer)-1] != num:
+            answer.append(num)
     
     return answer
