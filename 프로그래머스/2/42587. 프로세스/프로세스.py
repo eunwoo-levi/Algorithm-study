@@ -2,18 +2,25 @@ from collections import deque
 
 def solution(priorities, location):
     answer = 0
-    queue = deque([p, i] for i, p in enumerate(priorities))
+    queue = deque()
     
-    while queue:
-        current = queue.popleft()
+    for i, priority in enumerate(priorities):
+        queue.append((priority, i))
         
-        # 현재 프로세스보다 높은 우선순위가 뒤에 존재
-        if any(current[0] < q[0] for q in queue):
-            queue.append(current)
+    
+    while(queue):
+        priority, i = queue.popleft()
+        flag = False
+        for p, _ in queue:
+            if(priority < p):
+                flag = True
+                break
+                        
+        if flag == True:
+            queue.append((priority, i))
         else:
-            answer += 1;
-            if(current[1] == location):
+            answer += 1
+            if i == location:
                 return answer
-            
-        
+    
     return answer
