@@ -8,12 +8,11 @@ def solution(k, dungeons):
         
         for i in range(len(dungeons)):
             need, cost = dungeons[i]
-            
             if not visited[i] and hp >= need:
-                visited[i] = True
-                dfs(hp - cost, count + 1)
+                visited[i] = True;
+                dfs(hp-cost, count+1)
                 visited[i] = False
-            
+    
     dfs(k, 0)
-        
+    
     return answer
