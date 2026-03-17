@@ -3,15 +3,16 @@ def solution(n, computers):
     
     visited = [False] * n
     
-    def dfs(idx):
-        visited[idx] = True
-        
-        for i in range(n):
-            if visited[i] == False and computers[idx][i] == 1:
-                dfs(i)
     
-    for i in range(n):
-        if visited[i] == False:
+    def dfs(node):
+        visited[node] = True
+        
+        for j in range(len(computers[node])):
+            if not visited[j] and computers[node][j] == 1:
+                dfs(j)
+    
+    for i in range(0, n):
+        if not visited[i]:
             answer += 1
             dfs(i)
     
