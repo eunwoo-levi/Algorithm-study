@@ -1,31 +1,32 @@
 from collections import deque
+
 def solution(begin, target, words):
+    answer = 0
     N = len(words)
     
-    queue = deque()
     visited = [False] * N
+    queue = deque()
     queue.append((begin, 0))
     
-    while(queue):
-        word, count = queue.pop()
+    while queue:
+        word, step = queue.popleft()
         if word == target:
-            return count
+            return step
         
         for i in range(N):
-            if visited[i] == False and diff(word, words[i]) == True:
-                queue.append((words[i], count + 1))
+            next_word = words[i]
+            if not visited[i] and isValid(word, next_word):
                 visited[i] = True
+                queue.append((next_word, step + 1))
     
     
-    return 0
+    return answer
 
-def diff(a,b):
+def isValid(a, b):
     diff = 0
-    
     for i in range(len(a)):
+        if diff > 1:
+            return False
         if a[i] != b[i]:
             diff += 1
-            if diff>1:
-                return False
-            
     return diff == 1
