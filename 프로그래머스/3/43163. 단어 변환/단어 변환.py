@@ -9,24 +9,26 @@ def solution(begin, target, words):
     queue.append((begin, 0))
     
     while queue:
-        word, step = queue.popleft()
-        if word == target:
-            return step
+        word, cnt = queue.popleft()
         
-        for i in range(N):
-            next_word = words[i]
-            if not visited[i] and isValid(word, next_word):
+        if word == target:
+            return cnt
+        
+        for i, next_word in enumerate(words):
+            if not visited[i] and isOneDiff(word, next_word):
                 visited[i] = True
-                queue.append((next_word, step + 1))
+                queue.append((next_word, cnt+1))
     
     
-    return answer
+    return 0
 
-def isValid(a, b):
+def isOneDiff(a, b):
     diff = 0
+    
     for i in range(len(a)):
         if diff > 1:
             return False
         if a[i] != b[i]:
-            diff += 1
+            diff+=1
+            
     return diff == 1
