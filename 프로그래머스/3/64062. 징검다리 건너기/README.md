@@ -1,10 +1,10 @@
 # [level 3] 징검다리 건너기 - 64062 
 
-[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64062) 
+[문제 링크](https://school.programmers.co.kr/learn/courses/30/lessons/64062?language=python3) 
 
 ### 성능 요약
 
-메모리: 40.5 MB, 시간: 36.27 ms
+메모리: 17.6 MB, 시간: 327.06 ms
 
 ### 구분
 
@@ -16,7 +16,7 @@
 
 ### 제출 일자
 
-2026년 01월 17일 08:10:43
+2026년 03월 23일 17:18:03
 
 ### 문제 설명
 
