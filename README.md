@@ -1,1 +1,1 @@
-algorithm Study with C++ and JavaScript (Coding test)
+algorithm Study with C++ and JavaScript and Python
