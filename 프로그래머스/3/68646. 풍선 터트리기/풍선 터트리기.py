@@ -1,26 +1,27 @@
+# [왼쪽에서 살아남은 1개]  [x]  [오른쪽에서 살아남은 1개]
+# 왼쪽에서 봤을 때 "지금까지 나온 값 중 최솟값"인 애들은 살아남을 수 있다.
+# 그리고 뒤집어서 한 번 더 하면 오른쪽 기준 최솟값들도 셀 수 있다.
+
 def solution(a):
-    n = len(a)
-
-    if n <= 2:
-        return n
-
-    left_min = [0] * n
-    right_min = [0] * n
-
-    left_min[0] = a[0]
-    for i in range(1, n):
-        left_min[i] = min(left_min[i - 1], a[i])
-
-    right_min[n - 1] = a[n - 1]
-    for i in range(n - 2, -1, -1):
-        right_min[i] = min(right_min[i + 1], a[i])
-
-    answer = 0
-
-    for i in range(n):
-        # 왼쪽에도 더 작은 값이 있고, 오른쪽에도 더 작은 값이 있으면 생존 불가
-        if left_min[i] < a[i] and right_min[i] < a[i]:
-            continue
-        answer += 1
-
+    answer = 1
+    M = min(a)            # 전체 최솟값 먼저 구하는 이유 - 그 뒤에는 더 이상 새로운 최소가 나올 수 없기 때문
+    for _ in range(2):    # 왼쪽, 오른쪽 => 2번 돔
+        m = a[0]          # 인접한 두 풍선 중 하나를 터뜨리는 규칙 => 왼쪽부터 or 오른쪽부터 차례대로 가면서 비교
+        i = 1
+        while m != M:     # 전체 최소값 만나기까지만
+            if m >= a[i]:  
+                m = a[i]
+                answer += 1   # “오, 새로운 최소 등장했다. -> 이 풍선은 한쪽에서 최소니까 살아남을 수 있네”
+            i += 1
+        a.reverse()
     return answer
+
+
+# if m >= a[i]:
+#     m = a[i]
+#     answer += 1
+# 이 뜻은:
+# a[i]가 지금까지 본 애들보다 더 작다
+# → 즉 a[i]의 왼쪽에는 a[i]보다 더 작은 값이 없다
+# → 그러면 a[i]는 적어도 왼쪽에서는 최소다
+# → 따라서 살아남을 가능성이 있다
