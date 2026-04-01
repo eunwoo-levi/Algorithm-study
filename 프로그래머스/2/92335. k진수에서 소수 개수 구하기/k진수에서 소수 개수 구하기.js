@@ -1,24 +1,24 @@
 function solution(n, k) {
     var answer = 0;
     
-    const converted = n.toString(k)
-    const arr = converted.split('0').filter(a=>a!=='')
+    const arr = n.toString(k).split('0').filter(s=>s)
     
-    for(const a of arr){
-        if(isPrime(a))  answer++;
+    for(let i=0; i<arr.length; i++){
+        if(isPrime(arr[i])){
+            answer++;
+        }
     }
-    
     
     return answer;
 }
 
-function isPrime(k){
-    if(k<2){
-        return false
+function isPrime(n){
+    if(n<=1){
+        return false;
     }
     
-    for(let i=2; i*i<=k; i++){
-        if(k%i === 0){
+    for(let i=2; i*i <= n; i++){
+        if(n % i === 0){
             return false;
         }
     }
