@@ -1,27 +1,23 @@
+# survey를 for문 순환하면서 점수 업데이트
+# types_A, types_B로 나눠서 타입에 맞는 점수 계산
+
 def solution(survey, choices):
     answer = ''
     
-    type = ['R', 'T', 'C', 'F', 'J', 'M', 'A', 'N']
+    types = {type: 0 for type in ['R', 'T', 'C', 'F', 'J', 'M', 'A', 'N']}
     
-    types = {
-        'R':0, 'T':0,
-        'C':0, 'F':0,
-        'J':0, 'M':0,
-        'A':0, 'N':0
-    }
-
-    for i in range(len(survey)):
-        A, B = list(survey[i])
-        choice = choices[i]
-
-        if(choice < 4):
+    for type, choice in zip(survey, choices):
+        A, B = list(type)
+        
+        if choice < 4:
             types[A] += 4 - choice
-        elif(choice > 4):
+        elif choice > 4:
             types[B] += choice - 4
-
+        
+    
     answer += 'R' if types['R'] >= types['T'] else 'T'
     answer += 'C' if types['C'] >= types['F'] else 'F'
     answer += 'J' if types['J'] >= types['M'] else 'M'
     answer += 'A' if types['A'] >= types['N'] else 'N'
-                    
+    
     return answer
