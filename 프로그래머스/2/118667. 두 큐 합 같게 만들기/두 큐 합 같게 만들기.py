@@ -1,24 +1,28 @@
-def solution(que1, que2):
+def solution(queue1, queue2):
     answer = 0
-    queSum = (sum(que1) + sum(que2))
-    if queSum % 2:
+    queue = queue1 + queue2
+    total = sum(queue) 
+    if total % 2 != 0:
         return -1
-    target = queSum // 2
-
-    n = len(que1)
-    start = 0
-    end = n - 1
-
-    cur = sum(que1)
-    que3 = que1 + que2
-    while cur != target:
-        if cur < target:
-            end += 1
-            if end == n * 2:
-                return -1
-            cur += que3[end]
+    target = total // 2
+    
+    l = 0
+    r = len(queue1) - 1
+    cur = sum(queue1)
+    
+    while r < len(queue):
+        if cur == target:
+            return answer
+        
+        if cur > target:
+            cur -= queue[l]
+            l += 1
         else:
-            cur -= que3[start]
-            start += 1
+            r += 1
+            if r >= len(queue):
+                return -1
+            cur += queue[r]
+        
         answer += 1
-    return answer
+        
+    return -1
