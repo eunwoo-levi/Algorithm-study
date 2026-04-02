@@ -3,17 +3,19 @@ def solution(k, dungeons):
     N = len(dungeons)
     visited = [False] * N
     
-    def dfs(hp, cnt):
+    def dfs(k, cnt):
         nonlocal answer
+        
         answer = max(answer, cnt)
-                
+        
         for i in range(N):
             need, cost = dungeons[i]
-            if not visited[i] and hp >= need:
+            if not visited[i] and k >= need:
                 visited[i] = True
-                dfs(hp - cost, cnt + 1)
+                dfs(k - cost, cnt + 1)
                 visited[i] = False
                 
     dfs(k, 0)
+    
     
     return answer
