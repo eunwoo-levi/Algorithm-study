@@ -2,8 +2,8 @@ convert = {'zero': '0' , 'one': '1', 'two': '2', 'three': '3', 'four': '4', 'fiv
            'seven':'7', 'eight': '8', 'nine': '9'}
 
 def solution(s):
+    answer = s
     for key, value in convert.items():
-        while key in s:
-            s = s.replace(key, value)
+        answer = answer.replace(key, value)
     
-    return int(s)
+    return int(answer)
