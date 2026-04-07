@@ -1,44 +1,48 @@
+# table 객체에 모든 경우의 수를 담는다.
+# 1. info 순환 -> table에 담음 -> 5개 차례대로 - 대체해서 추가
+# 2. query 순환 -> table 비교하여 answer에 차례대로 카운팅
+from collections import defaultdict
 from itertools import combinations
 from bisect import bisect_left
 
 def solution(info, query):
-    table = {}
-
-    # 1. info를 16개 조합으로 확장해서 저장
+    answer = []
+    table = defaultdict(list)
+    
+    # info 전처리
     for person in info:
         parts = person.split()
-        attrs = parts[:-1]      # 언어, 직군, 경력, 소울푸드
-        score = int(parts[-1])  # 점수
-
-        for n in range(5):  # 0~4개 선택
+        attrs = parts[:-1]
+        score = int(parts[-1])
+        
+        for n in range(5):  # 0~4개를 '-'로 바꾸기
             for comb in combinations(range(4), n):
                 temp = attrs[:]
                 for idx in comb:
                     temp[idx] = '-'
+                
                 key = ' '.join(temp)
-                if key not in table:
-                    table[key] = []
                 table[key].append(score)
-
-    # 2. 각 key의 점수 리스트 정렬
+                
+    # 각 key의 점수 리스트 정렬
     for key in table:
         table[key].sort()
-
-    # 3. query 처리
-    answer = []
+                
+    # query 처리
     for q in query:
         q = q.replace(' and ', ' ')
-        lang, job, level, food, score = q.split()
-        score = int(score)
-
-        key = f'{lang} {job} {level} {food}'
-
+        infos = q.split(' ')
+        parts = infos[:-1]
+        score = int(infos[-1])
+        
+        key = ' '.join(parts)
+        
         if key not in table:
             answer.append(0)
             continue
-
+        
         scores = table[key]
         idx = bisect_left(scores, score)
         answer.append(len(scores) - idx)
-
+    
     return answer
