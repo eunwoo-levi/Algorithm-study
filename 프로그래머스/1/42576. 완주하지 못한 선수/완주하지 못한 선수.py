@@ -1,11 +1,13 @@
 from collections import Counter
 
 def solution(participant, completion):
+    answer = ''
     
-    p = Counter(participant)
-    c = Counter(completion)
-    answer = list((p-c).keys())
+    count = Counter(participant)
     
-    return answer[0]
+    for c in completion:
+        count[c] -= 1
     
-    
+    for name, num in count.items():
+        if num > 0:
+            return name
