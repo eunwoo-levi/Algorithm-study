@@ -1,10 +1,11 @@
 from collections import Counter
 
 def solution(nums):
-    answer = 1
-    pokemon = Counter(nums)    
-    quantity = len(list(pokemon.keys()))
+    answer = 0
     
-    half = len(nums) // 2
+    pokemon = Counter(nums)
     
-    return half if half <= quantity else quantity
+    if len(pokemon) >= len(nums) // 2:
+        return len(nums) // 2
+    
+    return len(pokemon)
