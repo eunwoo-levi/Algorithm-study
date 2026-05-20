@@ -1,15 +1,16 @@
 def solution(prices):
     answer = []
+    n = len(prices)
     
-    for i in range(len(prices)):
-        count = 0
+    for i in range(n):
+        cnt = 0
         flag = False
-        for j in range(i, len(prices)):
-            count += 1
+        for j in range(i+1, n):
             if prices[i] > prices[j]:
+                cnt += 1
                 break
-            
-        answer.append(count-1)
-        
+            cnt += 1
+                
+        answer.append(cnt)
     
     return answer
