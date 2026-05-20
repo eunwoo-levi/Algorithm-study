@@ -1,11 +1,10 @@
-from collections import Counter
-
 def solution(arr):
-    answer = [arr[0]]
+    answer = []
+
+    answer.append(arr[0])
     
-    
-    for num in arr[1:]:
-        if answer[len(answer)-1] != num:
-            answer.append(num)
+    for i in range(1, len(arr)):
+        if answer and answer[len(answer)-1] != arr[i]:
+            answer.append(arr[i])
     
     return answer
